@@ -1,0 +1,1379 @@
+{
+  "info": {
+    "_postman_id": "588f3f5d-e4f4-4bea-ae26-68a0643f9d2c",
+    "name": "Batch Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53395689",
+    "_collection_link": "https://go.postman.co/collection/53395689-588f3f5d-e4f4-4bea-ae26-68a0643f9d2c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "technologies",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get Technology",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/technologies/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "technologies",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/technologies/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "technologies",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 5434,\n    \"name\": \"string\",\n    \"createdAt\": \"1995-10-28T19:41:54.583Z\"\n  },\n  \"timestamp\": \"2020-09-11T05:32:29.256Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "update Technology",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/technologies/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "technologies",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/technologies/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "technologies",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 5434,\n    \"name\": \"string\",\n    \"createdAt\": \"1995-10-28T19:41:54.583Z\"\n  },\n  \"timestamp\": \"2020-09-11T05:32:29.256Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete Technology",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/technologies/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "technologies",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/technologies/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "technologies",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {},\n  \"timestamp\": \"2004-08-02T22:39:58.177Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get All Technologies",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/technologies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "technologies"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/technologies",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "technologies"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 5379,\n      \"name\": \"string\",\n      \"createdAt\": \"2024-10-23T04:08:06.516Z\"\n    },\n    {\n      \"id\": 9013,\n      \"name\": \"string\",\n      \"createdAt\": \"2004-11-06T15:00:52.163Z\"\n    }\n  ],\n  \"timestamp\": \"1957-09-20T10:57:09.857Z\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "create Technology",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/technologies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "technologies"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/technologies",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "technologies"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 5434,\n    \"name\": \"string\",\n    \"createdAt\": \"1995-10-28T19:41:54.583Z\"\n  },\n  \"timestamp\": \"2020-09-11T05:32:29.256Z\"\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "batches",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get Batch",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batches/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batches",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batches/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batches",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7502,\n    \"name\": \"string\",\n    \"startDate\": \"1955-11-29\",\n    \"endDate\": \"1998-10-19\",\n    \"createdAt\": \"1975-05-21T21:13:14.354Z\"\n  },\n  \"timestamp\": \"2013-05-09T13:33:29.388Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "update Batch",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"endDate\": \"1963-01-12\",\n  \"name\": \"string\",\n  \"startDate\": \"2025-08-13\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batches/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batches",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"endDate\": \"1963-01-12\",\n  \"name\": \"string\",\n  \"startDate\": \"2025-08-13\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batches/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batches",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7502,\n    \"name\": \"string\",\n    \"startDate\": \"1955-11-29\",\n    \"endDate\": \"1998-10-19\",\n    \"createdAt\": \"1975-05-21T21:13:14.354Z\"\n  },\n  \"timestamp\": \"2013-05-09T13:33:29.388Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete Batch",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batches/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batches",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batches/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batches",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {},\n  \"timestamp\": \"2004-08-02T22:39:58.177Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get All Batches",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/batches?page=3029&size=6407&sort=string,string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "batches"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "3029"
+                    },
+                    {
+                      "key": "size",
+                      "value": "6407"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string,string"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batches?page=3029&size=6407&sort=string,string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batches"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "3029"
+                        },
+                        {
+                          "key": "size",
+                          "value": "6407"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "string,string"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"totalPages\": 3011,\n    \"totalElements\": 6382,\n    \"pageable\": {\n      \"pageNumber\": 2753,\n      \"pageSize\": 1414,\n      \"offset\": 1328,\n      \"sort\": {\n        \"sorted\": false,\n        \"empty\": true,\n        \"unsorted\": false\n      },\n      \"paged\": true,\n      \"unpaged\": true\n    },\n    \"size\": 9116,\n    \"content\": [\n      {\n        \"id\": 7414,\n        \"name\": \"string\",\n        \"startDate\": \"2024-09-11\",\n        \"endDate\": \"1985-12-28\",\n        \"createdAt\": \"1960-05-29T02:07:18.778Z\"\n      },\n      {\n        \"id\": 9427,\n        \"name\": \"string\",\n        \"startDate\": \"1977-08-06\",\n        \"endDate\": \"1963-12-05\",\n        \"createdAt\": \"1964-04-13T08:17:04.009Z\"\n      }\n    ],\n    \"number\": 3698,\n    \"sort\": {\n      \"sorted\": false,\n      \"empty\": true,\n      \"unsorted\": true\n    },\n    \"numberOfElements\": 7652,\n    \"first\": false,\n    \"last\": true,\n    \"empty\": false\n  },\n  \"timestamp\": \"1948-08-31T21:59:09.998Z\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "create Batch",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"endDate\": \"1963-01-12\",\n  \"name\": \"string\",\n  \"startDate\": \"2025-08-13\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/batches",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "batches"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"endDate\": \"1963-01-12\",\n  \"name\": \"string\",\n  \"startDate\": \"2025-08-13\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batches",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batches"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7502,\n    \"name\": \"string\",\n    \"startDate\": \"1955-11-29\",\n    \"endDate\": \"1998-10-19\",\n    \"createdAt\": \"1975-05-21T21:13:14.354Z\"\n  },\n  \"timestamp\": \"2013-05-09T13:33:29.388Z\"\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "batch-technology",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get Batch Technology",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batch-technology/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batch-technology",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batch-technology/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batch-technology",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 6107,\n    \"batchId\": 2493,\n    \"batchName\": \"string\",\n    \"technologyId\": 286,\n    \"technologyName\": \"string\",\n    \"totalRounds\": 4862\n  },\n  \"timestamp\": \"1955-11-29T18:41:41.840Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "update Rounds",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batch-technology/:id?totalRounds=1490",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batch-technology",
+                        ":id"
+                      ],
+                      "query": [
+                        {
+                          "key": "totalRounds",
+                          "value": "1490"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batch-technology/:id?totalRounds=1490",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batch-technology",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "key": "totalRounds",
+                              "value": "1490"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 6107,\n    \"batchId\": 2493,\n    \"batchName\": \"string\",\n    \"technologyId\": 286,\n    \"technologyName\": \"string\",\n    \"totalRounds\": 4862\n  },\n  \"timestamp\": \"1955-11-29T18:41:41.840Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete Batch Technology",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batch-technology/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batch-technology",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "3636"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batch-technology/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batch-technology",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {},\n  \"timestamp\": \"2004-08-02T22:39:58.177Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "technology",
+              "item": [
+                {
+                  "name": "{techId}",
+                  "item": [
+                    {
+                      "name": "get Batches By Technology Id",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batch-technology/technology/:techId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batch-technology",
+                            "technology",
+                            ":techId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "techId",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/batch-technology/technology/:techId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "batch-technology",
+                                "technology",
+                                ":techId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "techId",
+                                  "value": "3636"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 3127,\n      \"batchId\": 9057,\n      \"batchName\": \"string\",\n      \"technologyId\": 4058,\n      \"technologyName\": \"string\",\n      \"totalRounds\": 3342\n    },\n    {\n      \"id\": 2600,\n      \"batchId\": 7381,\n      \"batchName\": \"string\",\n      \"technologyId\": 4246,\n      \"technologyName\": \"string\",\n      \"totalRounds\": 7878\n    }\n  ],\n  \"timestamp\": \"1957-06-08T00:16:14.536Z\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "batch",
+              "item": [
+                {
+                  "name": "{batchId}",
+                  "item": [
+                    {
+                      "name": "get Technologies By Batch Id",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/batch-technology/batch/:batchId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "batch-technology",
+                            "batch",
+                            ":batchId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "batchId",
+                              "value": "3636"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/batch-technology/batch/:batchId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "batch-technology",
+                                "batch",
+                                ":batchId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "batchId",
+                                  "value": "3636"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 3127,\n      \"batchId\": 9057,\n      \"batchName\": \"string\",\n      \"technologyId\": 4058,\n      \"technologyName\": \"string\",\n      \"totalRounds\": 3342\n    },\n    {\n      \"id\": 2600,\n      \"batchId\": 7381,\n      \"batchName\": \"string\",\n      \"technologyId\": 4246,\n      \"technologyName\": \"string\",\n      \"totalRounds\": 7878\n    }\n  ],\n  \"timestamp\": \"1957-06-08T00:16:14.536Z\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get All Batch Technologies",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/batch-technology",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "batch-technology"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batch-technology",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batch-technology"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 3127,\n      \"batchId\": 9057,\n      \"batchName\": \"string\",\n      \"technologyId\": 4058,\n      \"technologyName\": \"string\",\n      \"totalRounds\": 3342\n    },\n    {\n      \"id\": 2600,\n      \"batchId\": 7381,\n      \"batchName\": \"string\",\n      \"technologyId\": 4246,\n      \"technologyName\": \"string\",\n      \"totalRounds\": 7878\n    }\n  ],\n  \"timestamp\": \"1957-06-08T00:16:14.536Z\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "link Batch And Technology",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"batchId\": 6947,\n  \"technologyId\": 3666,\n  \"totalRounds\": 2577\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/batch-technology",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "batch-technology"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"batchId\": 6947,\n  \"technologyId\": 3666,\n  \"totalRounds\": 2577\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/batch-technology",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "batch-technology"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 6107,\n    \"batchId\": 2493,\n    \"batchName\": \"string\",\n    \"technologyId\": 286,\n    \"technologyName\": \"string\",\n    \"totalRounds\": 4862\n  },\n  \"timestamp\": \"1955-11-29T18:41:41.840Z\"\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9900"
+    }
+  ]
+}

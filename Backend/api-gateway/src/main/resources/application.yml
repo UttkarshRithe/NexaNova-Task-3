@@ -1,0 +1,142 @@
+server:
+  port: 9900
+
+spring:
+  application:
+    name: api-gateway
+
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+
+        # ================= AUTH SERVICE =================
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+
+        # ================= BATCH SERVICE =================
+        - id: batch-service
+          uri: lb://batch-service
+          predicates:
+            - Path=/api/batches/**,/api/technologies/**,/api/batch-technology/**
+          filters:
+            - JwtAuthentication
+
+        # ================= USER SERVICE =================
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - JwtAuthentication
+
+        # ================= PARTICIPANT SERVICE =================
+        - id: participant-service
+          uri: lb://participant-service
+          predicates:
+            - Path=/api/participants/**,/api/enrollments/**
+          filters:
+            - JwtAuthentication
+
+        # ================= EVALUATION SERVICE =================
+        - id: evaluation-service
+          uri: lb://evaluation-service
+          predicates:
+            - Path=/api/evaluation-assignments/**,/api/evaluation-results/**
+          filters:
+            - JwtAuthentication
+
+        # ================= REPORT SERVICE =================
+        - id: report-service
+          uri: lb://report-service
+          predicates:
+            - Path=/api/reports/**
+          filters:
+            - JwtAuthentication
+
+        # ================= SWAGGER DOCS =================
+        - id: auth-service-docs
+          uri: lb://auth-service
+          predicates:
+            - Path=/v3/api-docs/auth-service
+          filters:
+            - RewritePath=/v3/api-docs/auth-service, /v3/api-docs
+
+        - id: batch-service-docs
+          uri: lb://batch-service
+          predicates:
+            - Path=/v3/api-docs/batch-service
+          filters:
+            - RewritePath=/v3/api-docs/batch-service, /v3/api-docs
+
+        - id: user-service-docs
+          uri: lb://user-service
+          predicates:
+            - Path=/v3/api-docs/user-service
+          filters:
+            - RewritePath=/v3/api-docs/user-service, /v3/api-docs
+
+        - id: participant-service-docs
+          uri: lb://participant-service
+          predicates:
+            - Path=/v3/api-docs/participant-service
+          filters:
+            - RewritePath=/v3/api-docs/participant-service, /v3/api-docs
+
+        - id: evaluation-service-docs
+          uri: lb://evaluation-service
+          predicates:
+            - Path=/v3/api-docs/evaluation-service
+          filters:
+            - RewritePath=/v3/api-docs/evaluation-service, /v3/api-docs
+
+        - id: report-service-docs
+          uri: lb://report-service
+          predicates:
+            - Path=/v3/api-docs/report-service
+          filters:
+            - RewritePath=/v3/api-docs/report-service, /v3/api-docs
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-service:8761/eureka/
+
+jwt:
+  secret: ${JWT_SECRET:your-256-bit-secret-key-minimum-32-chars-long}
+  expiry: ${JWT_EXPIRY:86400000}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: auth-service
+        url: /v3/api-docs/auth-service
+
+      - name: batch-service
+        url: /v3/api-docs/batch-service
+
+      - name: user-service
+        url: /v3/api-docs/user-service
+
+      - name: participant-service
+        url: /v3/api-docs/participant-service
+
+      - name: evaluation-service
+        url: /v3/api-docs/evaluation-service
+
+      - name: report-service
+        url: /v3/api-docs/report-service
+
+  api-docs:
+    enabled: true

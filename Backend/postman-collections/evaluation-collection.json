@@ -1,0 +1,922 @@
+{
+  "info": {
+    "_postman_id": "eefcb341-ba47-4906-a366-d6c8e98bc66c",
+    "name": "Evaluation Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53395689",
+    "_collection_link": "https://go.postman.co/collection/53395689-eefcb341-ba47-4906-a366-d6c8e98bc66c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "evaluation-results",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get Result",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-results/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-results",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "9161"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-results/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-results",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "9161"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7642,\n    \"assignmentId\": 5704,\n    \"score\": 7041,\n    \"comments\": \"string\",\n    \"submittedAt\": \"1957-11-23T15:58:56.485Z\"\n  },\n  \"timestamp\": \"1960-02-10T05:41:48.809Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "update Result",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"assignmentId\": 7138,\n  \"score\": 11,\n  \"comments\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-results/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-results",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "9161"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"assignmentId\": 7138,\n  \"score\": 11,\n  \"comments\": \"string\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-results/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-results",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "9161"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7642,\n    \"assignmentId\": 5704,\n    \"score\": 7041,\n    \"comments\": \"string\",\n    \"submittedAt\": \"1957-11-23T15:58:56.485Z\"\n  },\n  \"timestamp\": \"1960-02-10T05:41:48.809Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "assignment",
+              "item": [
+                {
+                  "name": "{assignmentId}",
+                  "item": [
+                    {
+                      "name": "get Result By Assignment",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-results/assignment/:assignmentId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-results",
+                            "assignment",
+                            ":assignmentId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "assignmentId",
+                              "value": "9161"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/evaluation-results/assignment/:assignmentId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "evaluation-results",
+                                "assignment",
+                                ":assignmentId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "assignmentId",
+                                  "value": "9161"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7642,\n    \"assignmentId\": 5704,\n    \"score\": 7041,\n    \"comments\": \"string\",\n    \"submittedAt\": \"1957-11-23T15:58:56.485Z\"\n  },\n  \"timestamp\": \"1960-02-10T05:41:48.809Z\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "submit Result",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assignmentId\": 7138,\n  \"score\": 11,\n  \"comments\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/evaluation-results",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "evaluation-results"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"assignmentId\": 7138,\n  \"score\": 11,\n  \"comments\": \"string\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-results",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-results"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7642,\n    \"assignmentId\": 5704,\n    \"score\": 7041,\n    \"comments\": \"string\",\n    \"submittedAt\": \"1957-11-23T15:58:56.485Z\"\n  },\n  \"timestamp\": \"1960-02-10T05:41:48.809Z\"\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "evaluation-assignments",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get Assignment",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-assignments/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-assignments",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "9161"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-assignments/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-assignments",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "9161"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 3563,\n    \"enrollmentId\": 4272,\n    \"evaluatorId\": 1762,\n    \"evaluatorName\": \"string\",\n    \"roundNumber\": 9499,\n    \"status\": \"COMPLETED\",\n    \"assignedAt\": \"2000-10-11T00:12:25.948Z\"\n  },\n  \"timestamp\": \"2001-06-04T19:10:56.411Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "reassign Evaluator",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-assignments/:id?evaluatorId=9161",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-assignments",
+                        ":id"
+                      ],
+                      "query": [
+                        {
+                          "key": "evaluatorId",
+                          "value": "9161"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "9161"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-assignments/:id?evaluatorId=9161",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-assignments",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "key": "evaluatorId",
+                              "value": "9161"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "9161"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 3563,\n    \"enrollmentId\": 4272,\n    \"evaluatorId\": 1762,\n    \"evaluatorName\": \"string\",\n    \"roundNumber\": 9499,\n    \"status\": \"COMPLETED\",\n    \"assignedAt\": \"2000-10-11T00:12:25.948Z\"\n  },\n  \"timestamp\": \"2001-06-04T19:10:56.411Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete Assignment",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-assignments/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-assignments",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "9161"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-assignments/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-assignments",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "9161"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {},\n  \"timestamp\": \"1957-10-11T07:34:45.299Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "my",
+              "item": [
+                {
+                  "name": "get My Assignments",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-assignments/my",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-assignments",
+                        "my"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-assignments/my",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-assignments",
+                            "my"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 7983,\n      \"enrollmentId\": 6328,\n      \"evaluatorId\": 6838,\n      \"evaluatorName\": \"string\",\n      \"roundNumber\": 7316,\n      \"status\": \"PENDING\",\n      \"assignedAt\": \"1976-01-14T10:41:22.424Z\"\n    },\n    {\n      \"id\": 3019,\n      \"enrollmentId\": 9035,\n      \"evaluatorId\": 5864,\n      \"evaluatorName\": \"string\",\n      \"roundNumber\": 6183,\n      \"status\": \"PENDING\",\n      \"assignedAt\": \"2014-01-06T10:42:28.589Z\"\n    }\n  ],\n  \"timestamp\": \"1985-10-22T05:14:27.352Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enrollment",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "get Assignments By Enrollment",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/evaluation-assignments/enrollment/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "evaluation-assignments",
+                            "enrollment",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "9161"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/evaluation-assignments/enrollment/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "evaluation-assignments",
+                                "enrollment",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "9161"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 7983,\n      \"enrollmentId\": 6328,\n      \"evaluatorId\": 6838,\n      \"evaluatorName\": \"string\",\n      \"roundNumber\": 7316,\n      \"status\": \"PENDING\",\n      \"assignedAt\": \"1976-01-14T10:41:22.424Z\"\n    },\n    {\n      \"id\": 3019,\n      \"enrollmentId\": 9035,\n      \"evaluatorId\": 5864,\n      \"evaluatorName\": \"string\",\n      \"roundNumber\": 6183,\n      \"status\": \"PENDING\",\n      \"assignedAt\": \"2014-01-06T10:42:28.589Z\"\n    }\n  ],\n  \"timestamp\": \"1985-10-22T05:14:27.352Z\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get All Assignments",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/evaluation-assignments?page=4576&size=585&sort=string,string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "evaluation-assignments"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "4576"
+                    },
+                    {
+                      "key": "size",
+                      "value": "585"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string,string"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-assignments?page=4576&size=585&sort=string,string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-assignments"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "4576"
+                        },
+                        {
+                          "key": "size",
+                          "value": "585"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "string,string"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"totalPages\": 5360,\n    \"totalElements\": 2344,\n    \"pageable\": {\n      \"pageNumber\": 1780,\n      \"pageSize\": 7778,\n      \"offset\": 9293,\n      \"sort\": {\n        \"sorted\": true,\n        \"empty\": false,\n        \"unsorted\": false\n      },\n      \"paged\": false,\n      \"unpaged\": true\n    },\n    \"size\": 4518,\n    \"content\": [\n      {\n        \"id\": 4634,\n        \"enrollmentId\": 1303,\n        \"evaluatorId\": 7593,\n        \"evaluatorName\": \"string\",\n        \"roundNumber\": 1206,\n        \"status\": \"COMPLETED\",\n        \"assignedAt\": \"1971-02-21T05:20:04.641Z\"\n      },\n      {\n        \"id\": 4965,\n        \"enrollmentId\": 8894,\n        \"evaluatorId\": 5437,\n        \"evaluatorName\": \"string\",\n        \"roundNumber\": 3508,\n        \"status\": \"COMPLETED\",\n        \"assignedAt\": \"2019-04-19T19:07:27.372Z\"\n      }\n    ],\n    \"number\": 4251,\n    \"sort\": {\n      \"sorted\": true,\n      \"empty\": true,\n      \"unsorted\": false\n    },\n    \"numberOfElements\": 26,\n    \"first\": true,\n    \"last\": true,\n    \"empty\": false\n  },\n  \"timestamp\": \"2009-05-27T18:12:53.306Z\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "create Assignment",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"enrollmentId\": 255,\n  \"evaluatorId\": 3479,\n  \"roundNumber\": 7204\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/evaluation-assignments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "evaluation-assignments"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"enrollmentId\": 255,\n  \"evaluatorId\": 3479,\n  \"roundNumber\": 7204\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/evaluation-assignments",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "evaluation-assignments"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 3563,\n    \"enrollmentId\": 4272,\n    \"evaluatorId\": 1762,\n    \"evaluatorName\": \"string\",\n    \"roundNumber\": 9499,\n    \"status\": \"COMPLETED\",\n    \"assignedAt\": \"2000-10-11T00:12:25.948Z\"\n  },\n  \"timestamp\": \"2001-06-04T19:10:56.411Z\"\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9900"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: report-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-service:8761/eureka/
+
+jwt:
+  secret: ${JWT_SECRET:your-256-bit-secret-key-minimum-32-chars-long}
+  expiry: 86400000
+
+springdoc:
+  servers:
+    - url: http://localhost:9900     # ✅ yeh sahi hai

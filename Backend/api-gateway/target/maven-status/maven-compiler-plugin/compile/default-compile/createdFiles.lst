@@ -1,0 +1,4 @@
+com\techtraining\gateway\config\JwtAuthenticationGatewayFilterFactory.class
+com\techtraining\gateway\ApiGatewayApplication.class
+com\techtraining\gateway\config\JwtAuthenticationGatewayFilterFactory$Config.class
+com\techtraining\gateway\config\SecurityConfig.class

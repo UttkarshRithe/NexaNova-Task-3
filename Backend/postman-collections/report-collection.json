@@ -1,0 +1,236 @@
+{
+  "info": {
+    "_postman_id": "6982053a-4f91-45d1-85a3-055f7d744bbb",
+    "name": "Report Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53395689",
+    "_collection_link": "https://go.postman.co/collection/53395689-6982053a-4f91-45d1-85a3-055f7d744bbb?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "reports",
+          "item": [
+            {
+              "name": "batch",
+              "item": [
+                {
+                  "name": "{bId}",
+                  "item": [
+                    {
+                      "name": "technology",
+                      "item": [
+                        {
+                          "name": "{tId}",
+                          "item": [
+                            {
+                              "name": "export",
+                              "item": [
+                                {
+                                  "name": "export Report",
+                                  "request": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "*/*"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/reports/batch/:bId/technology/:tId/export?format=string",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "reports",
+                                        "batch",
+                                        ":bId",
+                                        "technology",
+                                        ":tId",
+                                        "export"
+                                      ],
+                                      "query": [
+                                        {
+                                          "key": "format",
+                                          "value": "string"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "bId",
+                                          "value": "8813"
+                                        },
+                                        {
+                                          "key": "tId",
+                                          "value": "8813"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "response": [
+                                    {
+                                      "name": "OK",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "*/*"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/reports/batch/:bId/technology/:tId/export?format=string",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "reports",
+                                            "batch",
+                                            ":bId",
+                                            "technology",
+                                            ":tId",
+                                            "export"
+                                          ],
+                                          "query": [
+                                            {
+                                              "key": "format",
+                                              "value": "string"
+                                            }
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "bId",
+                                              "value": "8813"
+                                            },
+                                            {
+                                              "key": "tId",
+                                              "value": "8813"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "text",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "*/*"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "body": "string"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "get Report",
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "*/*"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/reports/batch/:bId/technology/:tId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "reports",
+                                    "batch",
+                                    ":bId",
+                                    "technology",
+                                    ":tId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "bId",
+                                      "value": "8813"
+                                    },
+                                    {
+                                      "key": "tId",
+                                      "value": "8813"
+                                    }
+                                  ]
+                                }
+                              },
+                              "response": [
+                                {
+                                  "name": "OK",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "*/*"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/reports/batch/:bId/technology/:tId",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "reports",
+                                        "batch",
+                                        ":bId",
+                                        "technology",
+                                        ":tId"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "bId",
+                                          "value": "8813"
+                                        },
+                                        {
+                                          "key": "tId",
+                                          "value": "8813"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "text",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "*/*"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"batchName\": \"string\",\n    \"technologyName\": \"string\",\n    \"scores\": [\n      {\n        \"participantName\": \"string\",\n        \"rounds\": [\n          {\n            \"roundNumber\": 1352,\n            \"score\": 8152,\n            \"evaluatorName\": \"string\"\n          },\n          {\n            \"roundNumber\": 3147,\n            \"score\": 8068,\n            \"evaluatorName\": \"string\"\n          }\n        ],\n        \"averageScore\": 3767.4075276341723\n      },\n      {\n        \"participantName\": \"string\",\n        \"rounds\": [\n          {\n            \"roundNumber\": 1917,\n            \"score\": 9412,\n            \"evaluatorName\": \"string\"\n          },\n          {\n            \"roundNumber\": 9318,\n            \"score\": 6991,\n            \"evaluatorName\": \"string\"\n          }\n        ],\n        \"averageScore\": 6907.460453886923\n      }\n    ]\n  },\n  \"timestamp\": \"1960-12-04T12:26:30.138Z\"\n}"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9900"
+    }
+  ]
+}

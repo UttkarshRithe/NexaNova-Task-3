@@ -1,0 +1,29 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-service:8761/eureka/
+
+jwt:
+  secret: ${JWT_SECRET:your-256-bit-secret-key-minimum-32-chars-long}
+  expiry: 86400000
+
+logging:
+  level:
+    com.techtraining: DEBUG
+    org.springframework.security: DEBUG
+
+springdoc:
+  servers:
+    - url: http://localhost:9900     # ✅ yeh sahi hai
+
+

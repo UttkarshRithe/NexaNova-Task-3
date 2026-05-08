@@ -1,0 +1,10 @@
+com\techtraining\auth\service\AuthService.class
+com\techtraining\auth\dto\AuthResponse.class
+com\techtraining\auth\config\SecurityConfig.class
+com\techtraining\auth\client\UserClient$UserResponse.class
+com\techtraining\auth\dto\AuthResponse$AuthResponseBuilder.class
+com\techtraining\auth\client\UserClient.class
+com\techtraining\auth\dto\LoginRequest.class
+com\techtraining\auth\controller\AuthController.class
+com\techtraining\auth\config\PasswordConfig.class
+com\techtraining\auth\AuthServiceApplication.class

@@ -1,0 +1,689 @@
+{
+  "info": {
+    "_postman_id": "f29f84df-6c83-4609-8105-c83c2a51fde8",
+    "name": "User Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53395689",
+    "_collection_link": "https://go.postman.co/collection/53395689-f29f84df-6c83-4609-8105-c83c2a51fde8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "users",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "password",
+                  "item": [
+                    {
+                      "name": "reset Password",
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "string",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/users/:id/password",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "users",
+                            ":id",
+                            "password"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "6611"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "OK",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "*/*"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "string",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/users/:id/password",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "users",
+                                ":id",
+                                "password"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "6611"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "*/*"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {},\n  \"timestamp\": \"2002-10-09T13:14:29.382Z\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "get User By Id",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/users/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "users",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "6611"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/users/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "users",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "6611"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 1548,\n    \"name\": \"string\",\n    \"email\": \"string\",\n    \"role\": \"ADMIN\",\n    \"isActive\": false,\n    \"createdAt\": \"1967-04-08T00:50:46.234Z\"\n  },\n  \"timestamp\": \"1995-07-29T10:45:22.716Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "update User",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"password\": \"string\",\n  \"role\": \"EVALUATOR\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/users/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "users",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "6611"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"password\": \"string\",\n  \"role\": \"EVALUATOR\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/users/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "users",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "6611"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 1548,\n    \"name\": \"string\",\n    \"email\": \"string\",\n    \"role\": \"ADMIN\",\n    \"isActive\": false,\n    \"createdAt\": \"1967-04-08T00:50:46.234Z\"\n  },\n  \"timestamp\": \"1995-07-29T10:45:22.716Z\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete User",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/users/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "users",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "id",
+                          "value": "6611"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/users/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "users",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": "6611"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {},\n  \"timestamp\": \"2002-10-09T13:14:29.382Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "evaluators",
+              "item": [
+                {
+                  "name": "get Evaluators",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/users/evaluators",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "users",
+                        "evaluators"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/users/evaluators",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "users",
+                            "evaluators"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 4846,\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"role\": \"EVALUATOR\",\n      \"isActive\": false,\n      \"createdAt\": \"2016-08-26T03:09:13.910Z\"\n    },\n    {\n      \"id\": 4259,\n      \"name\": \"string\",\n      \"email\": \"string\",\n      \"role\": \"ADMIN\",\n      \"isActive\": true,\n      \"createdAt\": \"2018-06-21T04:47:37.426Z\"\n    }\n  ],\n  \"timestamp\": \"1966-11-06T00:42:04.255Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "by-email",
+              "item": [
+                {
+                  "name": "get User By Email Internal",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/users/by-email?email=string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "users",
+                        "by-email"
+                      ],
+                      "query": [
+                        {
+                          "key": "email",
+                          "value": "string"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "*/*"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/users/by-email?email=string",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "users",
+                            "by-email"
+                          ],
+                          "query": [
+                            {
+                              "key": "email",
+                              "value": "string"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "*/*"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"id\": 536,\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"role\": \"EVALUATOR\",\n  \"isActive\": false,\n  \"createdAt\": \"1979-10-10T09:56:26.677Z\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get All Users",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/users?page=4018&size=5722&sort=string,string",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "4018"
+                    },
+                    {
+                      "key": "size",
+                      "value": "5722"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "string,string"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/users?page=4018&size=5722&sort=string,string",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "4018"
+                        },
+                        {
+                          "key": "size",
+                          "value": "5722"
+                        },
+                        {
+                          "key": "sort",
+                          "value": "string,string"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"totalPages\": 8288,\n    \"totalElements\": 4288,\n    \"pageable\": {\n      \"pageNumber\": 4341,\n      \"pageSize\": 9369,\n      \"offset\": 1152,\n      \"sort\": {\n        \"sorted\": true,\n        \"empty\": true,\n        \"unsorted\": true\n      },\n      \"unpaged\": false,\n      \"paged\": true\n    },\n    \"size\": 376,\n    \"content\": [\n      {\n        \"id\": 1524,\n        \"name\": \"string\",\n        \"email\": \"string\",\n        \"role\": \"ADMIN\",\n        \"isActive\": false,\n        \"createdAt\": \"1973-03-24T07:10:06.550Z\"\n      },\n      {\n        \"id\": 6094,\n        \"name\": \"string\",\n        \"email\": \"string\",\n        \"role\": \"ADMIN\",\n        \"isActive\": true,\n        \"createdAt\": \"1957-07-29T16:12:04.556Z\"\n      }\n    ],\n    \"number\": 536,\n    \"sort\": {\n      \"sorted\": true,\n      \"empty\": true,\n      \"unsorted\": false\n    },\n    \"numberOfElements\": 3344,\n    \"first\": false,\n    \"last\": true,\n    \"empty\": false\n  },\n  \"timestamp\": \"1997-07-12T16:23:59.293Z\"\n}"
+                }
+              ]
+            },
+            {
+              "name": "create User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"password\": \"string\",\n  \"role\": \"EVALUATOR\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/users",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "OK",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "*/*"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"password\": \"string\",\n  \"role\": \"EVALUATOR\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/users",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "users"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "*/*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 1548,\n    \"name\": \"string\",\n    \"email\": \"string\",\n    \"role\": \"ADMIN\",\n    \"isActive\": false,\n    \"createdAt\": \"1967-04-08T00:50:46.234Z\"\n  },\n  \"timestamp\": \"1995-07-29T10:45:22.716Z\"\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:9900"
+    }
+  ]
+}
