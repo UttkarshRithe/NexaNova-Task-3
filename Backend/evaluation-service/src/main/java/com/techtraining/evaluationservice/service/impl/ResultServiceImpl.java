@@ -49,6 +49,12 @@ public class ResultServiceImpl implements ResultService {
             .assignmentId(assignment.getId())
             .score(request.getScore())
             .comments(request.getComments())
+            .technicalScore(request.getTechnicalScore())
+            .communicationScore(request.getCommunicationScore())
+            .problemSolvingScore(request.getProblemSolvingScore())
+            .strengths(request.getStrengths())
+            .weaknesses(request.getWeaknesses())
+            .aiFeedback(request.getAiFeedback())
             .build();
         EvaluationResult saved = resultRepository.save(result);
 
@@ -82,6 +88,12 @@ public class ResultServiceImpl implements ResultService {
 
         result.setScore(request.getScore());
         result.setComments(request.getComments());
+        result.setTechnicalScore(request.getTechnicalScore());
+        result.setCommunicationScore(request.getCommunicationScore());
+        result.setProblemSolvingScore(request.getProblemSolvingScore());
+        result.setStrengths(request.getStrengths());
+        result.setWeaknesses(request.getWeaknesses());
+        result.setAiFeedback(request.getAiFeedback());
         
         EvaluationResult updated = resultRepository.save(result);
         return resultMapper.toResponse(updated);

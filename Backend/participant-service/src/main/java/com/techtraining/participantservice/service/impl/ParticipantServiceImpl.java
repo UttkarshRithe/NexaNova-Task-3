@@ -44,6 +44,14 @@ public class ParticipantServiceImpl implements ParticipantService {
     public Page<ParticipantResponse> getAllParticipants(Pageable pageable) {
         return participantRepository.findAll(pageable).map(participantMapper::toResponse);
     }
+    
+    @Override
+    public java.util.List<ParticipantResponse> getAllParticipants() {
+        return participantRepository.findAll().stream()
+                .map(participantMapper::toResponse)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
 
     @Override
     @Transactional

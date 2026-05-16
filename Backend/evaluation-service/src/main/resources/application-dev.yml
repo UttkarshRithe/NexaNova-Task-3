@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create   # creates tables fresh on first run
+    show-sql: true       # see SQL in logs during dev
+
+logging:
+  level:
+    com.techtraining: DEBUG

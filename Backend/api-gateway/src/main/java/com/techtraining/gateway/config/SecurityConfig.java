@@ -10,26 +10,30 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        @Bean
+        public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeExchange(exchanges -> exchanges
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .authorizeExchange(exchanges -> exchanges
 
-                        // PUBLIC APIs
-                        .pathMatchers(
-                                "/api/auth/**",
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/webjars/**"
-                        ).permitAll()
+                                                // PUBLIC APIs
+                                                .pathMatchers(
+                                                                "/api/auth/**",
+                                                                "/swagger-ui.html",
+                                                                "/swagger-ui/**",
+                                                                "/v3/api-docs/**",
+                                                                "/webjars/**")
+                                                .permitAll()
 
-                        // EVERYTHING ELSE PROTECTED
-                        .anyExchange().permitAll()
-                );
+                                                // INTERNAL APIs - BLOCKED from external access
+                                                // Note: Spring Boot 3 PathPatternParser doesn't allow ** in the middle.
+                                                // /api/*/internal/** matches /api/{service}/internal/anything
+                                                .pathMatchers("/api/*/internal/**").denyAll()
 
-        return http.build();
-    }
+                                                // EVERYTHING ELSE PROTECTED
+                                                .anyExchange().permitAll());
+
+                return http.build();
+        }
 }

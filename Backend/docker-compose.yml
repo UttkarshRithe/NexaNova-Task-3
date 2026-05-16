@@ -15,7 +15,7 @@ services:
     volumes:
       - batch_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d batch_db"]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d batch_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,7 +32,7 @@ services:
     volumes:
       - user_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d user_db"]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d user_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -49,7 +49,7 @@ services:
     volumes:
       - participant_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d participant_db"]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d participant_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -66,10 +66,26 @@ services:
     volumes:
       - evaluation_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d evaluation_db"]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d evaluation_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
 
   # ===== INFRASTRUCTURE SERVICES =====
   discovery-service:
@@ -96,6 +112,7 @@ services:
       - "9900:9900"
     environment:
       JWT_SECRET: ${JWT_SECRET}
+      SPRING_DATA_REDIS_HOST: redis
     depends_on:
       - discovery-service
       - config-service
@@ -109,8 +126,10 @@ services:
     environment:
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
-      - discovery-service
-      - user-db
+      discovery-service:
+        condition: service_started
+      user-db:
+        condition: service_healthy
 
   batch-service:
     build: ./batch-service
@@ -120,9 +139,12 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: dev
     depends_on:
-      - batch-db
-      - discovery-service
+      batch-db:
+        condition: service_healthy
+      discovery-service:
+        condition: service_started
 
   user-service:
     build: ./user-service
@@ -132,9 +154,12 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: dev
     depends_on:
-      - user-db
-      - discovery-service
+      user-db:
+        condition: service_healthy
+      discovery-service:
+        condition: service_started
 
   participant-service:
     build: ./participant-service
@@ -144,9 +169,12 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: dev
     depends_on:
-      - participant-db
-      - discovery-service
+      participant-db:
+        condition: service_healthy
+      discovery-service:
+        condition: service_started
 
   evaluation-service:
     build: ./evaluation-service
@@ -156,15 +184,25 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: dev
+      RABBITMQ_HOST: rabbitmq
     depends_on:
-      - evaluation-db
-      - discovery-service
+      evaluation-db:
+        condition: service_healthy
+      discovery-service:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
 
   report-service:
     build: ./report-service
     container_name: report-service
     ports:
       - "8086:8086"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - shared_reports:/app/temp_reports
     depends_on:
       - discovery-service
       - evaluation-service
@@ -172,8 +210,36 @@ services:
       - participant-service
       - user-service
 
+  ai-service:
+    build: ./ai-service
+    container_name: ai-service
+    ports:
+      - "8087:8087"
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - discovery-service
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    ports:
+      - "8090:8090"
+    environment:
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      RABBITMQ_HOST: rabbitmq
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+    volumes:
+      - shared_reports:/app/temp_reports
+    depends_on:
+      - rabbitmq
+      - discovery-service
+
 volumes:
   batch_data:
   user_data:
   participant_data:
   evaluation_data:
+  shared_reports:

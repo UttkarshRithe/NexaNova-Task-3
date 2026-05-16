@@ -6,15 +6,15 @@ spring:
     name: user-service
   datasource:
     url: jdbc:postgresql://user-db:5432/user_db
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:password}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -28,7 +28,7 @@ eureka:
       defaultZone: http://discovery-service:8761/eureka/
 
 jwt:
-  secret: ${JWT_SECRET:your-256-bit-secret-key-minimum-32-chars-long}
+  secret: ${JWT_SECRET}
   expiry: 86400000
 
 springdoc:

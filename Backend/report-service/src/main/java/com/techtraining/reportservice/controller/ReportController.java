@@ -1,10 +1,11 @@
 package com.techtraining.reportservice.controller;
 
 import com.techtraining.common.dto.ApiResponse;
-import com.techtraining.reportservice.dto.ReportResponse;
+import com.techtraining.reportservice.dto.BatchAnalysisResponse;
 import com.techtraining.reportservice.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,27 +21,55 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @GetMapping("/batch/{bId}/technology/{tId}")
+    @GetMapping("/batch/{batchId}/export")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<ReportResponse>> getReport(@PathVariable Long bId, @PathVariable Long tId) {
-        ReportResponse response = reportService.getBatchTechnologyReport(bId, tId);
-        return ResponseEntity.ok(ApiResponse.success("Report fetched successfully", response));
-    }
-
-    @GetMapping("/batch/{bId}/technology/{tId}/export")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<InputStreamResource> exportReport(@PathVariable Long bId, @PathVariable Long tId, @RequestParam String format) {
-        ByteArrayInputStream bis = reportService.exportReport(bId, tId, format);
-        
+    public ResponseEntity<Resource> exportBatchReport(@PathVariable Long batchId, @RequestParam(defaultValue = "pdf") String format) {
+        ByteArrayInputStream bis = reportService.exportBatchReport(batchId, format);
         HttpHeaders headers = new HttpHeaders();
-        String fileName = "report_" + bId + "_" + tId + "." + format;
-        headers.add("Content-Disposition", "attachment; filename=" + fileName);
-
-        MediaType mediaType = "pdf".equalsIgnoreCase(format) ? MediaType.APPLICATION_PDF : MediaType.parseMediaType("text/csv");
+        headers.add("Content-Disposition", "attachment; filename=batch_report_" + batchId + "." + format);
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .contentType(mediaType)
+                .contentType("pdf".equalsIgnoreCase(format) ? MediaType.APPLICATION_PDF : MediaType.parseMediaType("text/csv"))
                 .body(new InputStreamResource(bis));
+    }
+
+    @GetMapping("/participant/{participantId}/export")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Resource> exportParticipantReport(@PathVariable Long participantId, @RequestParam(defaultValue = "pdf") String format) {
+        ByteArrayInputStream bis = reportService.exportParticipantReport(participantId, format);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=participant_report_" + participantId + "." + format);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType("pdf".equalsIgnoreCase(format) ? MediaType.APPLICATION_PDF : MediaType.parseMediaType("text/csv"))
+                .body(new InputStreamResource(bis));
+    }
+
+    @GetMapping("/batch/{batchId}/ai-analysis")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<BatchAnalysisResponse>> getBatchAiAnalysis(@PathVariable Long batchId) {
+        return ResponseEntity.ok(ApiResponse.success("AI analysis generated successfully", reportService.getBatchAiAnalysis(batchId)));
+    }
+
+    @GetMapping("/batch/{batchId}/ai-analysis/export")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Resource> exportBatchAiAnalysis(@PathVariable Long batchId) {
+        ByteArrayInputStream bis = reportService.exportBatchAnalysisPdf(batchId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=batch_ai_analysis_" + batchId + ".pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+    }
+
+    @PostMapping("/participant/{participantId}/email")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> emailParticipantReport(@PathVariable Long participantId) {
+        reportService.emailParticipantReport(participantId);
+        return ResponseEntity.ok(ApiResponse.success("Participant report email queued successfully", null));
     }
 }

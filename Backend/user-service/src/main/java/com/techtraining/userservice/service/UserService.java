@@ -13,7 +13,7 @@ public interface UserService {
     UserResponse getUserById(Long id);
     UserResponse getUserByEmail(String email);
     Page<UserResponse> getAllUsers(Pageable pageable);
-    List<UserResponse> getEvaluators();
+    Page<UserResponse> getEvaluators(Pageable pageable);
     UserResponse updateUser(Long id, UserRequest request);
     void softDeleteUser(Long id);
     void resetPassword(Long id, String newPassword);

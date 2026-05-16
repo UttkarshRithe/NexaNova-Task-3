@@ -8,6 +8,7 @@ import com.techtraining.evaluationservice.service.AssignmentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ import java.util.List;
 public class AssignmentController {
 
     private final AssignmentService assignmentService;
+
+    @Value("${internal.secret:nexanova-internal-secret}")
+    private String internalSecret;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -72,5 +76,20 @@ public class AssignmentController {
     public ResponseEntity<ApiResponse<Void>> deleteAssignment(@PathVariable Long id) {
         assignmentService.deleteAssignment(id);
         return ResponseEntity.ok(ApiResponse.success("Assignment removed successfully", null));
+    }
+
+    // ✅ FIX: Secured internal endpoint — requires X-Internal-Secret header.
+    // This path should also be blocked at the API Gateway for external callers.
+    @DeleteMapping("/internal/enrollment/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteAssignmentsByEnrollmentInternal(
+            @PathVariable Long id,
+            @RequestHeader(value = "X-Internal-Secret", required = false) String secret) {
+
+        if (!internalSecret.equals(secret)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(ApiResponse.success("Access denied", null));
+        }
+        assignmentService.deleteAssignmentsByEnrollmentId(id);
+        return ResponseEntity.ok(ApiResponse.success("Assignments removed for enrollment", null));
     }
 }

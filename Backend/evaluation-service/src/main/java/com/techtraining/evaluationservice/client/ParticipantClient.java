@@ -8,12 +8,23 @@ import java.util.Map;
 
 @FeignClient(
         name = "participant-service",
-        url = "http://participant-service:8084"
+        url = "http://participant-service:8084",
+        fallback = ParticipantClientFallback.class
 )
 public interface ParticipantClient {
 
-    @GetMapping("/api/enrollments/{id}")
+    @GetMapping("/api/enrollments/internal/{id}")
     Map<String, Object> getEnrollmentById(
+            @PathVariable("id") Long id
+    );
+
+    @GetMapping("/api/participants/internal/{id}")
+    Map<String, Object> getParticipantById(
+            @PathVariable("id") Long id
+    );
+
+    @GetMapping("/api/enrollments/internal/email-by-enrollment/{id}")
+    String getParticipantEmailByEnrollmentId(
             @PathVariable("id") Long id
     );
 }

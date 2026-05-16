@@ -8,7 +8,8 @@ import java.util.Map;
 
 @FeignClient(
         name = "user-service",
-        url = "http://user-service:8083"
+        url = "http://user-service:8083",
+        fallback = UserClientFallback.class
 )
 public interface UserClient {
 

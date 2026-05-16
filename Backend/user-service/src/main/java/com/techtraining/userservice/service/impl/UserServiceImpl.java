@@ -61,9 +61,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponse> getEvaluators() {
-        List<User> evaluators = userRepository.findByRoleAndIsActiveTrue(UserRole.EVALUATOR);
-        return userMapper.toResponseList(evaluators);
+    public Page<UserResponse> getEvaluators(Pageable pageable) {
+        return userRepository.findByRoleAndIsActiveTrue(UserRole.EVALUATOR, pageable).map(userMapper::toResponse);
     }
 
     @Override

@@ -11,4 +11,5 @@ public interface AssignmentRepository extends JpaRepository<EvaluationAssignment
     List<EvaluationAssignment> findByEvaluatorId(Long evaluatorId);
     List<EvaluationAssignment> findByEnrollmentId(Long enrollmentId);
     boolean existsByEnrollmentIdAndRoundNumber(Long enrollmentId, Integer roundNumber);
+    void deleteAllByEnrollmentId(Long enrollmentId);
 }

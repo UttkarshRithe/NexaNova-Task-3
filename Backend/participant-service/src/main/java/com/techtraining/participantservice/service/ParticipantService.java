@@ -9,6 +9,8 @@ public interface ParticipantService {
     ParticipantResponse addParticipant(ParticipantRequest request);
     ParticipantResponse getParticipantById(Long id);
     Page<ParticipantResponse> getAllParticipants(Pageable pageable);
+    java.util.List<ParticipantResponse> getAllParticipants();
     ParticipantResponse updateParticipant(Long id, ParticipantRequest request);
+
     void deleteParticipant(Long id);
 }

@@ -4,6 +4,7 @@ import com.techtraining.common.dto.ApiResponse;
 import com.techtraining.common.exception.DuplicateResourceException;
 import com.techtraining.common.exception.ResourceNotFoundException;
 import com.techtraining.participantservice.client.BatchClient;
+import com.techtraining.participantservice.client.EvaluationClient;
 import com.techtraining.participantservice.dto.request.EnrollmentRequest;
 import com.techtraining.participantservice.dto.response.EnrollmentResponse;
 import com.techtraining.participantservice.entity.Enrollment;
@@ -13,12 +14,16 @@ import com.techtraining.participantservice.repository.EnrollmentRepository;
 import com.techtraining.participantservice.repository.ParticipantRepository;
 import com.techtraining.participantservice.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EnrollmentServiceImpl implements EnrollmentService {
@@ -27,6 +32,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final ParticipantRepository participantRepository;
     private final EnrollmentMapper enrollmentMapper;
     private final BatchClient batchClient;
+    private final EvaluationClient evaluationClient;
+    private final RabbitTemplate rabbitTemplate;
+
+    @Value("${internal.secret:nexanova-internal-secret}")
+    private String internalSecret;
 
     @Override
     @Transactional
@@ -88,6 +98,18 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         Enrollment saved = enrollmentRepository.save(enrollment);
 
+        // Publish enrollment event
+        try {
+            rabbitTemplate.convertAndSend(
+                "evaltrack.exchange",
+                "enrollment.created",
+                saved
+            );
+            log.info("Published enrollment created event for participant {}", saved.getParticipant().getId());
+        } catch (Exception e) {
+            log.error("Failed to publish enrollment event: {}", e.getMessage());
+        }
+
         return enrollmentMapper.toResponse(saved);
     }
 
@@ -143,6 +165,21 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             );
         }
 
+        // ✅ FIX: Wrap Feign call in try/catch.
+        // A failed cascade must NOT block enrollment deletion.
+        // Any surviving orphan assignments will be cleaned up by the
+        // scheduled OrphanAssignmentCleanupJob in evaluation-service.
+        try {
+            evaluationClient.deleteAssignmentsByEnrollment(id, internalSecret);
+        } catch (Exception e) {
+            log.error(
+                "[EnrollmentService] Failed to cascade-delete assignments for enrollment={}: {}",
+                id, e.getMessage()
+            );
+            // Do NOT rethrow — enrollment deletion must still proceed.
+        }
+
         enrollmentRepository.deleteById(id);
+        log.info("[EnrollmentService] Enrollment {} deleted successfully.", id);
     }
 }

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Evaluation Report — EvalTrack</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #1a1a1a;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            background-color: #181715;
+            color: #ffffff;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+        }
+        .content {
+            padding: 40px;
+            line-height: 1.6;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+        .report-summary {
+            background-color: #efe9de;
+            padding: 24px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        .report-summary ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .report-summary li {
+            margin-bottom: 8px;
+        }
+        .footer {
+            padding: 30px 40px;
+            background-color: #fafafa;
+            border-top: 1px solid #eeeeee;
+            font-size: 13px;
+            color: #666666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EvalTrack</h1>
+            <p>Your Performance Insights</p>
+        </div>
+        <div class="content">
+            <div class="greeting">
+                Dear <strong th:text="${participantName}">Participant</strong>,
+            </div>
+            <p>Your mock evaluation report has been generated successfully.</p>
+            
+            <p>Please find your detailed evaluation report attached with this email.</p>
+            
+            <div class="report-summary">
+                <strong>The report includes:</strong>
+                <ul>
+                    <li>Round-wise scores</li>
+                    <li>Evaluator feedback</li>
+                    <li>Strengths and weaknesses</li>
+                    <li>Improvement suggestions</li>
+                </ul>
+            </div>
+
+            <p>Thank you for being part of the <strong><span th:text="${batchName}">Batch Name</span></strong> program.</p>
+            
+            <p>Best Regards,<br><strong>EvalTrack Team</strong></p>
+        </div>
+        <div class="footer">
+            &copy; 2026 EvalTrack System. All rights reserved.<br>
+            Industry-level Evaluation Platform.
+        </div>
+    </div>
+</body>
+</html>

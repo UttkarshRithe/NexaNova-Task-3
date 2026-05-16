@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: report-service
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
 
 eureka:
   instance:
@@ -13,7 +18,7 @@ eureka:
       defaultZone: http://discovery-service:8761/eureka/
 
 jwt:
-  secret: ${JWT_SECRET:your-256-bit-secret-key-minimum-32-chars-long}
+  secret: ${JWT_SECRET}
   expiry: 86400000
 
 springdoc:

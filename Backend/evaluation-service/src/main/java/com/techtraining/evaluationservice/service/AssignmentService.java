@@ -15,4 +15,5 @@ public interface AssignmentService {
     List<AssignmentResponse> getAssignmentsByEnrollment(Long enrollmentId);
     AssignmentResponse reassignEvaluator(Long id, Long evaluatorId);
     void deleteAssignment(Long id);
+    void deleteAssignmentsByEnrollmentId(Long enrollmentId);
 }

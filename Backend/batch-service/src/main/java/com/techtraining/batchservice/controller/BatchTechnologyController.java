@@ -35,6 +35,12 @@ public class BatchTechnologyController {
         return ResponseEntity.ok(ApiResponse.success("Link fetched successfully", response));
     }
 
+    // Internal API for service-to-service lookup
+    @GetMapping("/internal/{id}")
+    public BatchTechnologyResponse getBatchTechnologyInternal(@PathVariable Long id) {
+        return batchTechnologyService.getBatchTechnologyById(id);
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<BatchTechnologyResponse>>> getAllBatchTechnologies() {

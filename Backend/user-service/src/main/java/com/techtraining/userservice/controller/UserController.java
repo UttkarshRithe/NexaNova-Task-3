@@ -87,10 +87,10 @@ public class UserController {
 
     @GetMapping("/evaluators")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getEvaluators() {
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getEvaluators(Pageable pageable) {
 
-        List<UserResponse> response =
-                userService.getEvaluators();
+        Page<UserResponse> response =
+                userService.getEvaluators(pageable);
 
         return ResponseEntity.ok(
                 ApiResponse.success(

@@ -19,7 +19,6 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest request) {
 
-        System.out.println("DEBUG HASH: " + new BCryptPasswordEncoder(12).encode("admin"));
 
         UserClient.UserResponse user = userClient.getUserByEmail(request.getEmail());
 

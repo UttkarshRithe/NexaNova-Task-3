@@ -1,0 +1,23 @@
+# Cursor
+.cursor/
+
+# Agents
+.agents/
+
+# Graphify
+.graphify*
+graphify-out/
+
+# Environment
+Backend/.env
+Frontend/.env
+
+# Java/Maven
+**/target/
+
+# Frontend build outputs
+Frontend/node_modules/
+Frontend/dist/
+
+# Skills
+skills-lock.json

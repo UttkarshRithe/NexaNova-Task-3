@@ -4,7 +4,9 @@ import com.techtraining.common.constants.AppConstants;
 import com.techtraining.common.dto.ApiResponse;
 import com.techtraining.participantservice.dto.request.EnrollmentRequest;
 import com.techtraining.participantservice.dto.response.EnrollmentResponse;
+import com.techtraining.participantservice.dto.response.ParticipantResponse;
 import com.techtraining.participantservice.service.EnrollmentService;
+import com.techtraining.participantservice.service.ParticipantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.List;
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
+    private final ParticipantService participantService;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -34,6 +37,22 @@ public class EnrollmentController {
     public ResponseEntity<ApiResponse<EnrollmentResponse>> getEnrollment(@PathVariable Long id) {
         EnrollmentResponse response = enrollmentService.getEnrollmentById(id);
         return ResponseEntity.ok(ApiResponse.success("Enrollment fetched successfully", response));
+    }
+
+    // Internal API for service-to-service lookup
+    @GetMapping("/internal/{id}")
+    public EnrollmentResponse getEnrollmentInternal(@PathVariable Long id) {
+        return enrollmentService.getEnrollmentById(id);
+    }
+
+    @GetMapping("/internal/email-by-enrollment/{id}")
+    public String getParticipantEmailByEnrollmentId(@PathVariable Long id) {
+        EnrollmentResponse enrollment = enrollmentService.getEnrollmentById(id);
+        if (enrollment != null && enrollment.getParticipantId() != null) {
+            ParticipantResponse participant = participantService.getParticipantById(enrollment.getParticipantId());
+            return participant != null ? participant.getEmail() : null;
+        }
+        return null;
     }
 
     @GetMapping

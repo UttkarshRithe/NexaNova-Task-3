@@ -9,8 +9,15 @@ import java.util.List;
 @Builder
 public class ReportResponse {
     private String batchName;
-    private String technologyName;
-    private List<ParticipantScore> scores;
+    private String participantName; // Used for individual reports
+    private List<TechnologyReport> technologies;
+
+    @Data
+    @Builder
+    public static class TechnologyReport {
+        private String technologyName;
+        private List<ParticipantScore> participantScores;
+    }
 
     @Data
     @Builder
@@ -26,5 +33,6 @@ public class ReportResponse {
         private Integer roundNumber;
         private Integer score;
         private String evaluatorName;
+        private String feedback;
     }
 }

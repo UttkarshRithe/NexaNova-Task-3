@@ -1,0 +1,26 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: ai-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+openrouter:
+  api-key: ${OPENROUTER_API_KEY}
+  api-url: https://openrouter.ai/api/v1/chat/completions
+  model: deepseek/deepseek-chat-v3-0324
+
+jwt:
+  secret: ${JWT_SECRET:your-256-bit-secret-key-minimum-32-characters-long}
+
+logging:
+  level:
+    com.techtraining: DEBUG
+

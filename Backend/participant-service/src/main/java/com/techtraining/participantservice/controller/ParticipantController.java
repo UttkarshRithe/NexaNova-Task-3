@@ -36,12 +36,26 @@ public class ParticipantController {
         return ResponseEntity.ok(ApiResponse.success("Participant fetched successfully", response));
     }
 
+    // Internal API for service-to-service lookup
+    @GetMapping("/internal/{id}")
+    public ParticipantResponse getParticipantInternal(@PathVariable Long id) {
+        return participantService.getParticipantById(id);
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Page<ParticipantResponse>>> getAllParticipants(Pageable pageable) {
         Page<ParticipantResponse> response = participantService.getAllParticipants(pageable);
         return ResponseEntity.ok(ApiResponse.success("Participants fetched successfully", response));
     }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<java.util.List<ParticipantResponse>>> getAllParticipants() {
+        java.util.List<ParticipantResponse> response = participantService.getAllParticipants();
+        return ResponseEntity.ok(ApiResponse.success("All participants fetched successfully", response));
+    }
+
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

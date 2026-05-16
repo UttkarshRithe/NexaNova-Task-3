@@ -22,10 +22,12 @@ public class BatchTechnology {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id", nullable = false)
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Batch batch;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "technology_id", nullable = false)
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private Technology technology;
 
     @Column(name = "total_rounds", nullable = false)
