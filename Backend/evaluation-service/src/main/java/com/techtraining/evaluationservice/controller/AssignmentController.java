@@ -49,14 +49,30 @@ public class AssignmentController {
         return ResponseEntity.ok(ApiResponse.success("Assignments fetched successfully", response));
     }
 
-    @GetMapping("/my")
-    @PreAuthorize("hasRole('EVALUATOR')")
-    public ResponseEntity<ApiResponse<List<AssignmentResponse>>> getMyAssignments(HttpServletRequest request) {
-        Long evaluatorId = Long.parseLong(request.getHeader("X-User-Id"));
-        List<AssignmentResponse> response = assignmentService.getMyAssignments(evaluatorId);
-        return ResponseEntity.ok(ApiResponse.success("My assignments fetched successfully", response));
+@GetMapping("/my")
+@PreAuthorize("hasRole('EVALUATOR')")
+public ResponseEntity<ApiResponse<List<AssignmentResponse>>> getMyAssignments(
+        @RequestHeader(value = "X-User-Id", required = false) String userId
+) {
+
+    if (userId == null || userId.isBlank()) {
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.success("Missing X-User-Id header", null));
     }
 
+    Long evaluatorId = Long.parseLong(userId);
+
+    List<AssignmentResponse> response =
+            assignmentService.getMyAssignments(evaluatorId);
+
+    return ResponseEntity.ok(
+            ApiResponse.success(
+                    "My assignments fetched successfully",
+                    response
+            )
+    );
+}
     @GetMapping("/enrollment/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<AssignmentResponse>>> getAssignmentsByEnrollment(@PathVariable Long id) {

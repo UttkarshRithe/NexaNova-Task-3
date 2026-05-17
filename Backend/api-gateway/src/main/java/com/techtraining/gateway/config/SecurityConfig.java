@@ -2,6 +2,8 @@ package com.techtraining.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -10,30 +12,31 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-        @Bean
-        public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    @Bean
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
-                http
-                                .csrf(csrf -> csrf.disable())
-                                .authorizeExchange(exchanges -> exchanges
+        return http
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(formLogin -> formLogin.disable())
 
-                                                // PUBLIC APIs
-                                                .pathMatchers(
-                                                                "/api/auth/**",
-                                                                "/swagger-ui.html",
-                                                                "/swagger-ui/**",
-                                                                "/v3/api-docs/**",
-                                                                "/webjars/**")
-                                                .permitAll()
+                .authorizeExchange(exchanges -> exchanges
 
-                                                // INTERNAL APIs - BLOCKED from external access
-                                                // Note: Spring Boot 3 PathPatternParser doesn't allow ** in the middle.
-                                                // /api/*/internal/** matches /api/{service}/internal/anything
-                                                .pathMatchers("/api/*/internal/**").denyAll()
+			.pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .pathMatchers(
+                                "/api/auth/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/webjars/**"
+                        ).permitAll()
 
-                                                // EVERYTHING ELSE PROTECTED
-                                                .anyExchange().permitAll());
+                        .pathMatchers("/api/*/internal/**").denyAll()
 
-                return http.build();
-        }
+                        .anyExchange().permitAll()
+                )
+
+                .build();
+    }
 }

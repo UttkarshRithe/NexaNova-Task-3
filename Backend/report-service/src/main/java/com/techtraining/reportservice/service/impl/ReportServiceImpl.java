@@ -12,6 +12,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.UnitValue;
+
 import com.techtraining.reportservice.client.*;
 import com.techtraining.reportservice.dto.BatchAnalysisRequest;
 import com.techtraining.reportservice.dto.BatchAnalysisResponse;
@@ -19,12 +20,17 @@ import com.techtraining.reportservice.dto.ReportResponse;
 import com.techtraining.reportservice.dto.response.BatchReportResponse;
 import com.techtraining.reportservice.dto.response.IndividualReportResponse;
 import com.techtraining.reportservice.service.ReportService;
+
 import com.techtraining.common.event.ParticipantReportEmailEvent;
+
 import com.techtraining.reportservice.producer.ParticipantReportEmailProducer;
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -33,17 +39,37 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class ReportServiceImpl implements ReportService {
 
-    private final EvaluationClient evaluationClient;
+    @Autowired(required = false)
+    private EvaluationClient evaluationClient;
+
     private final BatchClient batchClient;
     private final ParticipantClient participantClient;
     private final UserClient userClient;
     private final AiServiceClient aiServiceClient;
     private final PdfExportService pdfExportService;
     private final ParticipantReportEmailProducer participantReportEmailProducer;
+
+    public ReportServiceImpl(
+            BatchClient batchClient,
+            ParticipantClient participantClient,
+            UserClient userClient,
+            AiServiceClient aiServiceClient,
+            PdfExportService pdfExportService,
+            ParticipantReportEmailProducer participantReportEmailProducer
+    ) {
+        this.batchClient = batchClient;
+        this.participantClient = participantClient;
+        this.userClient = userClient;
+        this.aiServiceClient = aiServiceClient;
+        this.pdfExportService = pdfExportService;
+        this.participantReportEmailProducer = participantReportEmailProducer;
+    }
+
+
+
 
     @Override
     public ReportResponse getBatchReport(Long batchId) {

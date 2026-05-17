@@ -93,9 +93,6 @@ services:
     container_name: discovery-service
     ports:
       - "8761:8761"
-    # Note: Healthcheck removed for speed, but can be added if discovery supports it
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
 
   config-service:
     build: ./config-service
@@ -118,6 +115,7 @@ services:
       - config-service
 
   # ===== BUSINESS SERVICES =====
+
   auth-service:
     build: ./auth-service
     container_name: auth-service
@@ -139,7 +137,7 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      SPRING_PROFILES_ACTIVE: dev
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       batch-db:
         condition: service_healthy
@@ -154,7 +152,7 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      SPRING_PROFILES_ACTIVE: dev
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       user-db:
         condition: service_healthy
@@ -169,7 +167,7 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      SPRING_PROFILES_ACTIVE: dev
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       participant-db:
         condition: service_healthy
@@ -184,7 +182,7 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      SPRING_PROFILES_ACTIVE: dev
+      JWT_SECRET: ${JWT_SECRET}
       RABBITMQ_HOST: rabbitmq
     depends_on:
       evaluation-db:
@@ -200,6 +198,7 @@ services:
     ports:
       - "8086:8086"
     environment:
+      JWT_SECRET: ${JWT_SECRET}
       RABBITMQ_HOST: rabbitmq
     volumes:
       - shared_reports:/app/temp_reports
@@ -229,6 +228,7 @@ services:
     environment:
       MAIL_USERNAME: ${MAIL_USERNAME}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       RABBITMQ_HOST: rabbitmq
       EUREKA_SERVER: http://discovery-service:8761/eureka/
     volumes:

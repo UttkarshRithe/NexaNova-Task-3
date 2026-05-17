@@ -4,18 +4,23 @@ server:
 spring:
   application:
     name: user-service
+
   datasource:
     url: jdbc:postgresql://user-db:5432/user_db
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
+
   jpa:
     hibernate:
       ddl-auto: validate
+
     show-sql: true
+
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -23,6 +28,7 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+
   client:
     serviceUrl:
       defaultZone: http://discovery-service:8761/eureka/
@@ -33,9 +39,9 @@ jwt:
 
 springdoc:
   servers:
-    - url: http://localhost:9900     # ✅ yeh sahi hai
+    - url: http://13.202.248.158:9900
 
 logging:
   level:
-    org.springframework.security: DEBUG
-    com.techtraining: DEBUG
+    org.springframework.security: INFO
+    com.techtraining: INFO

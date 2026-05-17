@@ -5,10 +5,15 @@ spring:
   application:
     name: auth-service
 
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 
 eureka:
   instance:
     prefer-ip-address: true
+
   client:
     serviceUrl:
       defaultZone: http://discovery-service:8761/eureka/
@@ -17,13 +22,6 @@ jwt:
   secret: ${JWT_SECRET}
   expiry: 86400000
 
-logging:
-  level:
-    com.techtraining: DEBUG
-    org.springframework.security: DEBUG
-
 springdoc:
   servers:
-    - url: http://localhost:9900     # ✅ yeh sahi hai
-
-
+    - url: http://13.202.248.158:9900
