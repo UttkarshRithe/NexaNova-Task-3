@@ -1,0 +1,67 @@
+name: Deploy EvalTrack Frontend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Frontend/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  build-and-test:
+    name: Build & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: Frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          cd Frontend
+          npm ci
+
+      - name: Verify Production Build
+        run: |
+          cd Frontend
+          npm run build
+
+  deploy:
+    name: Deploy to Production
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute Remote Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "==== Starting Deployment on EC2 ===="
+            cd ~/NexaNova-Task-3
+            
+            echo "Fetching latest changes from main branch..."
+            git pull origin main
+            
+            echo "Building production assets..."
+            cd Frontend
+            npm install
+            npm run build
+            
+            echo "Copying static assets to web directory..."
+            sudo cp -r dist/* /var/www/html/
+            
+            echo "Reloading Nginx server..."
+            sudo systemctl reload nginx
+            
+            echo "==== Deployment Completed Successfully! ===="
