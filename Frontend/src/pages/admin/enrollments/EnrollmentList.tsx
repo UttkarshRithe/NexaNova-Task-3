@@ -122,21 +122,21 @@ const EnrollmentList = () => {
 
   return (
     <div className="space-y-8">
-      <header className="flex items-center justify-between">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-serif">Enrollments</h1>
+          <h1 className="text-3xl sm:text-4xl font-serif">Enrollments</h1>
           <p className="text-chrome/60 mt-2">Manage participant enrollments across different batches and technologies.</p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="btn-primary"
+          className="btn-primary w-full sm:w-auto"
         >
           <UserPlus size={20} />
           Enroll Participant
         </button>
       </header>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-chrome/40" size={20} />
           <input
@@ -145,7 +145,7 @@ const EnrollmentList = () => {
             className="input-field pl-12"
           />
         </div>
-        <button className="btn-secondary">
+        <button className="btn-secondary w-full sm:w-auto">
           <Filter size={20} />
           Filters
         </button>
@@ -161,7 +161,7 @@ const EnrollmentList = () => {
             No enrollments found.
           </div>
         ) : (
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[600px] text-left border-collapse">
             <thead>
               <tr className="table-header">
                 <th className="px-6 py-4">Participant</th>
@@ -209,15 +209,15 @@ const EnrollmentList = () => {
       </div>
       {/* Enrollment Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-chrome/40 backdrop-blur-sm">
-          <div className="bg-white max-w-md w-full rounded-lg shadow-xl border border-surface-dim overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-chrome/40 backdrop-blur-sm">
+          <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-lg shadow-xl border border-surface-dim overflow-hidden max-h-[90vh] flex flex-col">
             <div className="p-6 border-b border-surface-dim flex justify-between items-center text-chrome">
               <h3 className="text-xl font-serif">Enroll Participant</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-chrome/40 hover:text-chrome">
                 <Plus size={20} className="rotate-45" />
               </button>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5 overflow-y-auto">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider mb-2">Select Participant</label>
                 <select {...register('participantId')} className="input-field">
@@ -247,9 +247,9 @@ const EnrollmentList = () => {
                 </p>
               </div>
 
-              <div className="flex gap-3 pt-4">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="btn-secondary flex-1">Cancel</button>
-                <button type="submit" disabled={isSubmitting} className="btn-primary flex-1">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="btn-secondary w-full sm:flex-1">Cancel</button>
+                <button type="submit" disabled={isSubmitting} className="btn-primary w-full sm:flex-1">
                   {isSubmitting ? 'Enrolling...' : 'Confirm Enrollment'}
                 </button>
               </div>

@@ -4,11 +4,17 @@ import {
   LayoutDashboard, 
   ClipboardList, 
   CheckCircle2,
-  LogOut
+  LogOut,
+  X
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
-const EvaluatorSidebar = () => {
+interface EvaluatorSidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const EvaluatorSidebar: React.FC<EvaluatorSidebarProps> = ({ isOpen, onClose }) => {
   const { logout, user } = useAuth();
 
   const navItems = [
@@ -18,16 +24,28 @@ const EvaluatorSidebar = () => {
   ];
 
   return (
-    <div className="w-72 bg-chrome text-white h-screen flex flex-col fixed left-0 top-0">
-      <div className="p-8">
+    <div className={`
+      w-72 bg-chrome text-white h-screen flex flex-col fixed left-0 top-0 z-50
+      transition-transform duration-300 ease-in-out lg:translate-x-0
+      ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+    `}>
+      <div className="p-8 flex items-center justify-between border-b border-white/10 lg:border-none">
         <h1 className="text-2xl font-serif">EvalTrack</h1>
+        <button 
+          onClick={onClose}
+          className="lg:hidden p-1 text-white/70 hover:text-white transition-colors"
+          aria-label="Close sidebar"
+        >
+          <X size={20} />
+        </button>
       </div>
 
-      <nav className="flex-1 px-4 space-y-1">
+      <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
+            onClick={onClose}
             className={({ isActive }) => `
               flex items-center gap-3 px-4 py-3 rounded transition-all
               ${isActive 

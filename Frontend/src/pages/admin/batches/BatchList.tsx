@@ -51,23 +51,23 @@ const BatchList = () => {
 
   return (
     <div className="space-y-8">
-      <header className="flex items-center justify-between">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-serif">Batches</h1>
+          <h1 className="text-3xl sm:text-4xl font-serif">Batches</h1>
           <nav className="text-xs font-semibold uppercase tracking-wider text-chrome/40 mt-2">
             Admin / Batches
           </nav>
         </div>
         <button 
           onClick={() => navigate('/admin/batches/create')}
-          className="btn-primary"
+          className="btn-primary w-full sm:w-auto"
         >
           <Plus size={20} />
           Create Batch
         </button>
       </header>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-chrome/40" size={20} />
           <input 
@@ -76,7 +76,7 @@ const BatchList = () => {
             className="input-field pl-12"
           />
         </div>
-        <button className="btn-secondary">
+        <button className="btn-secondary w-full sm:w-auto">
           <Filter size={20} />
           Filters
         </button>
@@ -92,7 +92,7 @@ const BatchList = () => {
             <p>No batches found. Create one to get started.</p>
           </div>
         ) : (
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[600px] text-left border-collapse">
             <thead>
               <tr className="table-header">
                 <th className="px-6 py-4">Batch Name</th>

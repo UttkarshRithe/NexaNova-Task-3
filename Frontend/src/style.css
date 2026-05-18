@@ -32,7 +32,7 @@
   }
 
   .table-container {
-    @apply w-full overflow-hidden rounded-lg border border-surface-dim bg-white;
+    @apply w-full overflow-x-auto rounded-lg border border-surface-dim bg-white;
   }
 
   .table-header {

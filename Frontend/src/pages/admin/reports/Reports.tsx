@@ -142,7 +142,7 @@ const Reports = () => {
           </div>
 
           <div className="table-container max-h-[500px] overflow-y-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full min-w-[480px] text-left border-collapse">
               <thead className="sticky top-0 z-10 bg-white">
                 <tr className="table-header">
                   <th className="px-6 py-3">Batch Name</th>
@@ -211,7 +211,7 @@ const Reports = () => {
           </div>
 
           <div className="table-container max-h-[500px] overflow-y-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full min-w-[520px] text-left border-collapse">
               <thead className="sticky top-0 z-10 bg-white">
                 <tr className="table-header">
                   <th className="px-6 py-3">Participant Name</th>
@@ -268,72 +268,74 @@ const Reports = () => {
       </div>
 
       {analysisModal && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-3xl rounded-xl shadow-xl p-6 max-h-[85vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-4">
-              <h2 className="text-2xl font-serif">🤖 Holistic AI Analysis — {selectedBatchName}</h2>
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="bg-white w-full sm:max-w-3xl rounded-t-2xl sm:rounded-xl shadow-xl p-5 sm:p-6 max-h-[90vh] sm:max-h-[85vh] overflow-y-auto flex flex-col">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+              <h2 className="text-xl sm:text-2xl font-serif">🤖 Holistic AI Analysis — {selectedBatchName}</h2>
               <button 
                 onClick={() => handleDownloadAnalysis(batches.find(b => b.name === selectedBatchName)?.id!, selectedBatchName)}
-                className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm font-medium"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm font-medium"
               >
                 <Download size={16} />
                 Download PDF
               </button>
             </div>
 
-            {isAnalyzing ? (
-              <div className="text-chrome/60">Gathering cross-technology insights...</div>
-            ) : analysisData && (
-              <div className="space-y-4">
-                <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">
-                  Batch Health: {analysisData.overallHealth}
+            <div className="space-y-4 overflow-y-auto flex-1 pr-1">
+              {isAnalyzing ? (
+                <div className="text-chrome/60 py-8 text-center">Gathering cross-technology insights...</div>
+              ) : analysisData && (
+                <div className="space-y-4">
+                  <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold text-xs sm:text-sm">
+                    Batch Health: {analysisData.overallHealth}
+                  </div>
+                  <div className="grid gap-2">
+                    {analysisData.technologySummaries?.map((tech) => (
+                      <div key={tech.name} className="border rounded-lg p-3 flex flex-wrap gap-3 text-xs">
+                        <span className="font-semibold">{tech.name}</span>
+                        <span>Avg: {tech.avgScore?.toFixed?.(2) ?? tech.avgScore}</span>
+                        <span>{tech.status}</span>
+                        <span>⚠️ {tech.atRiskCount} at-risk</span>
+                        <span>📈 {tech.trend}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">📝 Holistic Analysis</h4>
+                    <p className="text-xs sm:text-sm leading-relaxed text-chrome/80 mt-1">{analysisData.aiSummary}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">💡 Strategic Recommendation</h4>
+                    <p className="text-xs sm:text-sm leading-relaxed text-chrome/80 mt-1">{analysisData.recommendation}</p>
+                  </div>
                 </div>
-                <div className="grid gap-2">
-                  {analysisData.technologySummaries?.map((tech) => (
-                    <div key={tech.name} className="border rounded-lg p-3 flex flex-wrap gap-3 text-sm">
-                      <span className="font-semibold">{tech.name}</span>
-                      <span>Avg: {tech.avgScore?.toFixed?.(2) ?? tech.avgScore}</span>
-                      <span>{tech.status}</span>
-                      <span>⚠️ {tech.atRiskCount} at-risk</span>
-                      <span>📈 {tech.trend}</span>
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <h4 className="font-semibold">📝 Holistic Analysis</h4>
-                  <p className="text-sm leading-relaxed text-chrome/80">{analysisData.aiSummary}</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">💡 Strategic Recommendation</h4>
-                  <p className="text-sm leading-relaxed text-chrome/80">{analysisData.recommendation}</p>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            <div className="mt-6 text-right">
-              <button className="btn-secondary" onClick={() => setAnalysisModal(false)}>Close</button>
+            <div className="mt-6 border-t pt-4 text-right">
+              <button className="btn-secondary w-full sm:w-auto" onClick={() => setAnalysisModal(false)}>Close</button>
             </div>
           </div>
         </div>
       )}
 
       {emailModal && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-md rounded-xl shadow-xl p-8">
-            <h2 className="text-2xl font-serif mb-4">Send Participant Report?</h2>
-            <p className="text-chrome/70 mb-8">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-xl shadow-xl p-6 sm:p-8">
+            <h2 className="text-xl sm:text-2xl font-serif mb-4">Send Participant Report?</h2>
+            <p className="text-sm sm:text-base text-chrome/70 mb-8 leading-relaxed">
               Are you sure you want to email the evaluation report to <strong>{selectedParticipant?.name}</strong>?
             </p>
-            <div className="flex justify-end gap-3">
+            <div className="flex flex-col sm:flex-row justify-end gap-3">
               <button 
-                className="btn-secondary" 
+                className="btn-secondary w-full sm:w-auto order-2 sm:order-1" 
                 onClick={() => setEmailModal(false)}
                 disabled={isEmailing}
               >
                 Cancel
               </button>
               <button 
-                className="btn-primary flex items-center gap-2" 
+                className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2 order-1 sm:order-2" 
                 onClick={handleEmailReport}
                 disabled={isEmailing}
               >

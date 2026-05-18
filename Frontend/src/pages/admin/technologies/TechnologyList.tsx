@@ -129,7 +129,7 @@ const TechnologyList = () => {
             ) : filteredTechnologies.length === 0 ? (
               <div className="p-12 text-center text-chrome/40">No technologies found.</div>
             ) : (
-              <table className="w-full text-left border-collapse">
+              <table className="w-full min-w-[400px] text-left border-collapse">
                 <thead>
                   <tr className="table-header">
                     <th className="px-6 py-4 w-full">Name</th>

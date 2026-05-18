@@ -144,21 +144,21 @@ const EvaluationAssignmentList = () => {
 
   return (
     <div className="space-y-8">
-      <header className="flex items-center justify-between">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-serif">Evaluation Assignments</h1>
+          <h1 className="text-3xl sm:text-4xl font-serif">Evaluation Assignments</h1>
           <p className="text-chrome/60 mt-2">Assign evaluators to participants for specific rounds.</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="btn-primary"
+          className="btn-primary w-full sm:w-auto"
         >
           <Plus size={20} />
           Create Assignment
         </button>
       </header>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-chrome/40" size={20} />
           <input 
@@ -167,7 +167,7 @@ const EvaluationAssignmentList = () => {
             className="input-field pl-12"
           />
         </div>
-        <button className="btn-secondary">
+        <button className="btn-secondary w-full sm:w-auto">
           <Filter size={20} />
           Filters
         </button>
@@ -180,7 +180,7 @@ const EvaluationAssignmentList = () => {
           <div className="p-12 text-center text-chrome/40">No assignments found.</div>
         ) : (
           <>
-            <table className="w-full text-left border-collapse">
+            <table className="w-full min-w-[700px] text-left border-collapse">
               <thead>
                 <tr className="table-header">
                   <th className="px-6 py-4">Participant</th>
@@ -206,7 +206,7 @@ const EvaluationAssignmentList = () => {
                     </td>
                     <td className="table-cell">
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-surface flex items-center justify-center text-[10px] font-bold">
+                        <div className="w-6 h-6 rounded-full bg-surface flex items-center justify-center text-[10px] font-bold flex-shrink-0">
                           {as.evaluatorName?.[0]}
                         </div>
                         <span className="text-sm">{as.evaluatorName}</span>
@@ -267,15 +267,15 @@ const EvaluationAssignmentList = () => {
 
       {/* Assignment Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-chrome/40 backdrop-blur-sm">
-          <div className="bg-white max-w-md w-full rounded-lg shadow-xl border border-surface-dim overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-chrome/40 backdrop-blur-sm">
+          <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-lg shadow-xl border border-surface-dim overflow-hidden max-h-[90vh] flex flex-col">
             <div className="p-6 border-b border-surface-dim flex justify-between items-center text-chrome">
               <h3 className="text-xl font-serif">Create Assignment</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-chrome/40 hover:text-chrome">
                 <Plus size={20} className="rotate-45" />
               </button>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5 overflow-y-auto">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider mb-2">Select Enrollment</label>
                 <select {...register('enrollmentId')} className="input-field">
@@ -316,9 +316,9 @@ const EvaluationAssignmentList = () => {
                 </p>
               </div>
 
-              <div className="flex gap-3 pt-4">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="btn-secondary flex-1">Cancel</button>
-                <button type="submit" disabled={isSubmitting} className="btn-primary flex-1">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="btn-secondary w-full sm:flex-1">Cancel</button>
+                <button type="submit" disabled={isSubmitting} className="btn-primary w-full sm:flex-1">
                   {isSubmitting ? 'Assigning...' : 'Confirm Assignment'}
                 </button>
               </div>

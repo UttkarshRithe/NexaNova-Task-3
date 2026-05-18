@@ -102,21 +102,21 @@ const EvaluatorDashboard = () => {
           ) : (
             <div className="space-y-4">
               {pending.slice(0, 5).map((as) => (
-                <div key={as.id} className="flex items-center justify-between p-5 rounded-lg border border-surface-dim hover:border-primary transition-all bg-white group">
+                <div key={as.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-lg border border-surface-dim hover:border-primary transition-all bg-white group gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded bg-surface-container flex items-center justify-center font-serif text-xl font-bold text-chrome/40">
+                    <div className="w-12 h-12 rounded bg-surface-container flex items-center justify-center font-serif text-xl font-bold text-chrome/40 flex-shrink-0">
                       {as.participantName?.[0]}
                     </div>
-                    <div>
-                      <p className="font-medium text-lg text-chrome">{as.participantName}</p>
-                      <p className="text-xs text-chrome/40 uppercase tracking-widest font-semibold">
+                    <div className="min-w-0">
+                      <p className="font-medium text-lg text-chrome truncate">{as.participantName}</p>
+                      <p className="text-xs text-chrome/40 uppercase tracking-widest font-semibold truncate">
                         {as.batchName} • {as.technologyName} • Round {as.roundNumber}
                       </p>
                     </div>
                   </div>
                   <button 
                     onClick={() => navigate(`/evaluator/evaluate/${as.id}`)}
-                    className="btn-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="btn-primary w-full sm:w-auto opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity"
                   >
                     Start Evaluation
                   </button>

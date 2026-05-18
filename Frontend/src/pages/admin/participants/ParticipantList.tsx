@@ -45,23 +45,23 @@ const ParticipantList = () => {
 
   return (
     <div className="space-y-8">
-      <header className="flex items-center justify-between">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-serif">Participants</h1>
+          <h1 className="text-3xl sm:text-4xl font-serif">Participants</h1>
           <nav className="text-xs font-semibold uppercase tracking-wider text-chrome/40 mt-2">
             Admin / Participants
           </nav>
         </div>
         <button 
           onClick={() => navigate('/admin/participants/create')}
-          className="btn-primary"
+          className="btn-primary w-full sm:w-auto"
         >
           <Plus size={20} />
           Add Participant
         </button>
       </header>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-chrome/40" size={20} />
           <input 
@@ -70,7 +70,7 @@ const ParticipantList = () => {
             className="input-field pl-12"
           />
         </div>
-        <button className="btn-secondary">
+        <button className="btn-secondary w-full sm:w-auto">
           <Filter size={20} />
           Filters
         </button>
@@ -80,7 +80,7 @@ const ParticipantList = () => {
         {loading ? (
           <div className="p-12 text-center text-chrome/40">Loading participants...</div>
         ) : (
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[600px] text-left border-collapse">
             <thead>
               <tr className="table-header">
                 <th className="px-6 py-4">Participant Details</th>
@@ -92,13 +92,13 @@ const ParticipantList = () => {
                 <tr key={p.id} className="table-row">
                   <td className="table-cell">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-bold text-chrome/40 border border-surface-dim">
+                      <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-bold text-chrome/40 border border-surface-dim flex-shrink-0">
                         {p.name[0]}
                       </div>
-                      <div>
-                        <p className="font-medium">{p.name}</p>
-                        <div className="flex items-center gap-1 text-xs text-chrome/40">
-                          <Mail size={12} />
+                      <div className="min-w-0">
+                        <p className="font-medium truncate">{p.name}</p>
+                        <div className="flex items-center gap-1 text-xs text-chrome/40 truncate">
+                          <Mail size={12} className="flex-shrink-0" />
                           {p.email}
                         </div>
                       </div>

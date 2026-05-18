@@ -45,7 +45,7 @@ const MyAssignments = () => {
         <p className="text-chrome/60 mt-2">View and manage all your assigned participant evaluations.</p>
       </header>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-chrome/40" size={20} />
           <input 
@@ -57,7 +57,7 @@ const MyAssignments = () => {
           />
         </div>
         <select 
-          className="btn-secondary"
+          className="btn-secondary w-full sm:w-auto"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
@@ -77,42 +77,44 @@ const MyAssignments = () => {
           </div>
         ) : (
           filtered.map((as) => (
-            <div key={as.id} className="card p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-primary transition-colors group">
-              <div className="flex items-center gap-5">
-                <div className={`p-4 rounded-full ${as.status === 'COMPLETED' ? 'bg-status-success/10 text-status-success' : 'bg-status-warning/10 text-status-warning'}`}>
+            <div key={as.id} className="card p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-primary transition-colors group">
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                <div className={`p-3.5 sm:p-4 rounded-full flex-shrink-0 ${as.status === 'COMPLETED' ? 'bg-status-success/10 text-status-success' : 'bg-status-warning/10 text-status-warning'}`}>
                   {as.status === 'COMPLETED' ? <CheckCircle2 size={24} /> : <ClipboardList size={24} />}
                 </div>
-                <div>
-                  <h3 className="text-xl font-serif text-chrome">{as.participantName}</h3>
-                  <p className="text-sm font-semibold uppercase tracking-widest text-chrome/40">
+                <div className="min-w-0">
+                  <h3 className="text-lg sm:text-xl font-serif text-chrome truncate">{as.participantName}</h3>
+                  <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-chrome/40 truncate">
                     {as.batchName} • {as.technologyName} • Round {as.roundNumber}
                   </p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-6">
-                <div className="text-right hidden sm:block">
+              <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto border-t sm:border-none pt-4 sm:pt-0">
+                <div className="text-left sm:text-right">
                   <p className="text-[10px] font-bold uppercase tracking-wider text-chrome/40 mb-1">Status</p>
                   <span className={`text-xs font-bold uppercase tracking-wider ${as.status === 'COMPLETED' ? 'text-status-success' : 'text-status-warning'}`}>
                     {as.status}
                   </span>
                 </div>
-                {as.status === 'PENDING' ? (
-                  <button 
-                    onClick={() => navigate(`/evaluator/evaluate/${as.id}`)}
-                    className="btn-primary"
-                  >
-                    Start Evaluation
-                  </button>
-                ) : (
-                  <button 
-                    onClick={() => navigate(`/evaluator/results`)}
-                    className="btn-secondary"
-                  >
-                    View Result
-                  </button>
-                )}
-                <ChevronRight size={20} className="text-chrome/20 group-hover:text-primary transition-colors" />
+                <div className="flex items-center gap-3">
+                  {as.status === 'PENDING' ? (
+                    <button 
+                      onClick={() => navigate(`/evaluator/evaluate/${as.id}`)}
+                      className="btn-primary py-1.5 px-3 sm:px-4 text-xs sm:text-sm"
+                    >
+                      Start Evaluation
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => navigate(`/evaluator/results`)}
+                      className="btn-secondary py-1.5 px-3 sm:px-4 text-xs sm:text-sm"
+                    >
+                      View Result
+                    </button>
+                  )}
+                  <ChevronRight size={20} className="text-chrome/20 group-hover:text-primary transition-colors hidden sm:block" />
+                </div>
               </div>
             </div>
           ))

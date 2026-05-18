@@ -99,9 +99,9 @@ const RoundsConfig = () => {
 
   return (
     <div className="space-y-8">
-      <header className="flex items-center justify-between">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-serif">Rounds Configuration</h1>
+          <h1 className="text-3xl sm:text-4xl font-serif">Rounds Configuration</h1>
           <p className="text-chrome/60 mt-2">Define how many evaluation rounds each technology requires per batch.</p>
         </div>
         <button 
@@ -110,7 +110,7 @@ const RoundsConfig = () => {
             reset({ totalRounds: 3 });
             setIsModalOpen(true);
           }}
-          className="btn-primary"
+          className="btn-primary w-full sm:w-auto"
         >
           <Plus size={20} />
           New Configuration
@@ -128,20 +128,20 @@ const RoundsConfig = () => {
           <p className="text-chrome/60 mb-6">Start by linking a batch to a technology and setting round limits.</p>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="btn-secondary mx-auto"
+            className="btn-secondary mx-auto w-full sm:w-auto"
           >
             Create first config
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {configs.map((config) => (
             <div key={config.id} className="card hover:border-primary transition-colors group">
               <div className="flex justify-between items-start mb-6">
                 <div className="p-3 bg-primary/10 text-primary rounded-lg">
                   <Settings size={20} />
                 </div>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
                   <button 
                     onClick={() => openEditModal(config)}
                     className="p-2 hover:bg-canvas rounded text-chrome/60"
@@ -174,15 +174,15 @@ const RoundsConfig = () => {
 
       {/* Configuration Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-chrome/40 backdrop-blur-sm">
-          <div className="bg-white max-w-md w-full rounded-lg shadow-xl border border-surface-dim overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-chrome/40 backdrop-blur-sm">
+          <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-lg shadow-xl border border-surface-dim overflow-hidden max-h-[90vh] flex flex-col">
             <div className="p-6 border-b border-surface-dim flex justify-between items-center">
               <h3 className="text-xl font-serif">{editingConfig ? 'Edit Configuration' : 'New Configuration'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-chrome/40 hover:text-chrome">
                 <X size={20} />
               </button>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5 overflow-y-auto">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider mb-2">Batch</label>
                 <select 
@@ -221,18 +221,18 @@ const RoundsConfig = () => {
                 {errors.totalRounds && <p className="text-status-error text-xs mt-1">{errors.totalRounds.message}</p>}
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button 
                   type="button" 
                   onClick={() => setIsModalOpen(false)} 
-                  className="btn-secondary flex-1"
+                  className="btn-secondary w-full sm:flex-1"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="btn-primary flex-1"
+                  className="btn-primary w-full sm:flex-1"
                 >
                   {isSubmitting ? 'Saving...' : editingConfig ? 'Update Config' : 'Create Config'}
                 </button>

@@ -120,7 +120,7 @@ const SubmittedResults = () => {
                   </div>
                 </div>
 
-                <div className="md:w-48 flex flex-col items-center justify-center border-l border-surface-dim pl-8">
+                <div className="w-full md:w-48 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-surface-dim pt-8 md:pt-0 md:pl-8">
                   <p className="text-[10px] font-bold uppercase tracking-wider text-chrome/40 mb-2">Final Score</p>
                   <div className="relative">
                     <div className="text-5xl font-serif text-chrome">{result.score}</div>
