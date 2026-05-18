@@ -14,6 +14,8 @@ const UserList = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     fetchUsers();
   }, [page]);
@@ -43,6 +45,11 @@ const UserList = () => {
     }
   };
 
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-8">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -68,17 +75,17 @@ const UserList = () => {
             type="text" 
             placeholder="Search users by name or email..." 
             className="input-field pl-12"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <button className="btn-secondary w-full sm:w-auto">
-          <Filter size={20} />
-          Filters
-        </button>
       </div>
 
       <div className="table-container">
         {loading ? (
           <div className="p-12 text-center text-chrome/40">Loading users...</div>
+        ) : filteredUsers.length === 0 ? (
+          <div className="p-12 text-center text-chrome/40">No users found.</div>
         ) : (
           <table className="w-full min-w-[600px] text-left border-collapse">
             <thead>
@@ -89,7 +96,7 @@ const UserList = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id} className="table-row">
                   <td className="table-cell">
                     <div className="flex items-center gap-4">

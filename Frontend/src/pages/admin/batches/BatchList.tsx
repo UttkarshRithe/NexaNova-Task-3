@@ -15,6 +15,8 @@ const BatchList = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedBatchId, setSelectedBatchId] = useState<number | null>(null);
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     fetchBatches();
   }, [page]);
@@ -49,6 +51,10 @@ const BatchList = () => {
     setIsDeleteModalOpen(true);
   };
 
+  const filteredBatches = batches.filter(batch => 
+    batch.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-8">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -74,12 +80,10 @@ const BatchList = () => {
             type="text" 
             placeholder="Search batches..." 
             className="input-field pl-12"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <button className="btn-secondary w-full sm:w-auto">
-          <Filter size={20} />
-          Filters
-        </button>
       </div>
 
       <div className="table-container">
@@ -87,9 +91,9 @@ const BatchList = () => {
           <div className="p-12 text-center text-chrome/40">
             <p>Loading batches...</p>
           </div>
-        ) : batches.length === 0 ? (
+        ) : filteredBatches.length === 0 ? (
           <div className="p-12 text-center text-chrome/40">
-            <p>No batches found. Create one to get started.</p>
+            <p>No batches found.</p>
           </div>
         ) : (
           <table className="w-full min-w-[600px] text-left border-collapse">
@@ -102,7 +106,7 @@ const BatchList = () => {
               </tr>
             </thead>
             <tbody>
-              {batches.map((batch) => (
+              {filteredBatches.map((batch) => (
                 <tr key={batch.id} className="table-row">
                   <td className="table-cell font-medium">{batch.name}</td>
                   <td className="table-cell text-chrome/60">

@@ -34,6 +34,8 @@ const EvaluationAssignmentList = () => {
     defaultValues: { roundNumber: 1 }
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     fetchAssignments();
     fetchSelectionData();
@@ -142,6 +144,13 @@ const EvaluationAssignmentList = () => {
     }
   };
 
+  const filteredAssignments = assignments.filter(as => 
+    as.participantName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    as.technologyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    as.evaluatorName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    as.batchName?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-8">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -165,18 +174,16 @@ const EvaluationAssignmentList = () => {
             type="text" 
             placeholder="Search assignments..." 
             className="input-field pl-12"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <button className="btn-secondary w-full sm:w-auto">
-          <Filter size={20} />
-          Filters
-        </button>
       </div>
 
       <div className="table-container">
         {loading ? (
           <div className="p-12 text-center text-chrome/40">Loading assignments...</div>
-        ) : assignments.length === 0 ? (
+        ) : filteredAssignments.length === 0 ? (
           <div className="p-12 text-center text-chrome/40">No assignments found.</div>
         ) : (
           <>
@@ -191,7 +198,7 @@ const EvaluationAssignmentList = () => {
                 </tr>
               </thead>
               <tbody>
-                {assignments.map((as) => (
+                {filteredAssignments.map((as) => (
                   <tr key={as.id} className="table-row">
                     <td className="table-cell">
                       <p className="font-medium">{as.participantName}</p>

@@ -31,10 +31,16 @@ const EnrollmentList = () => {
     resolver: zodResolver(enrollmentSchema),
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     fetchEnrollments();
     fetchSelectionData();
-  }, [page]);
+  }, []); // Only fetch once on mount since pagination is client-side
+
+  useEffect(() => {
+    setPage(0); // Reset page to 0 on search query change
+  }, [searchQuery]);
 
   const parseEnrollmentPayload = (payload: any) => {
     if (Array.isArray(payload)) {
@@ -65,7 +71,7 @@ const EnrollmentList = () => {
     setLoading(true);
     try {
       const [response, btRes] = await Promise.all([
-        getEnrollments(page, 10),
+        getEnrollments(0, 1000), // Fetch all since backend doesn't support pagination
         getBatchTechnologies(),
       ]);
       const { content, totalElements } = parseEnrollmentPayload(response.data?.data);
@@ -120,6 +126,19 @@ const EnrollmentList = () => {
     }
   };
 
+  const ITEMS_PER_PAGE = 10;
+
+  const filteredEnrollments = enrollments?.filter(en => 
+    en.participantName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    en.technologyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    en.batchName?.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
+  const paginatedEnrollments = filteredEnrollments.slice(
+    page * ITEMS_PER_PAGE,
+    (page + 1) * ITEMS_PER_PAGE
+  );
+
   return (
     <div className="space-y-8">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -143,12 +162,10 @@ const EnrollmentList = () => {
             type="text"
             placeholder="Search enrollments..."
             className="input-field pl-12"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <button className="btn-secondary w-full sm:w-auto">
-          <Filter size={20} />
-          Filters
-        </button>
       </div>
 
       <div className="table-container">
@@ -156,7 +173,7 @@ const EnrollmentList = () => {
           <div className="p-12 text-center text-chrome/40">
             Loading enrollments...
           </div>
-        ) : (enrollments?.length || 0) === 0 ? (
+        ) : filteredEnrollments.length === 0 ? (
           <div className="p-12 text-center text-chrome/40">
             No enrollments found.
           </div>
@@ -170,8 +187,8 @@ const EnrollmentList = () => {
               </tr>
             </thead>
 
-            <tbody>
-              {enrollments?.map((en) => (
+             <tbody>
+              {paginatedEnrollments.map((en) => (
                 <tr key={en.id} className="table-row">
                   <td className="table-cell">
                     <p className="font-medium">{en.participantName}</p>
@@ -206,6 +223,28 @@ const EnrollmentList = () => {
             </tbody>
           </table>
         )}
+      </div>
+
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-chrome/60">
+          Showing {paginatedEnrollments.length} of {filteredEnrollments.length} results
+        </p>
+        <div className="flex gap-2">
+          <button 
+            className="btn-secondary py-1 text-xs px-3" 
+            disabled={page === 0}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous
+          </button>
+          <button 
+            className="btn-secondary py-1 text-xs px-3"
+            disabled={(page + 1) * ITEMS_PER_PAGE >= filteredEnrollments.length}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </button>
+        </div>
       </div>
       {/* Enrollment Modal */}
       {isModalOpen && (

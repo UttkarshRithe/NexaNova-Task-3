@@ -14,6 +14,8 @@ const ParticipantList = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     fetchParticipants();
   }, [page]);
@@ -43,6 +45,11 @@ const ParticipantList = () => {
     }
   };
 
+  const filteredParticipants = participants.filter(p => 
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-8">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -68,17 +75,17 @@ const ParticipantList = () => {
             type="text" 
             placeholder="Search candidates..." 
             className="input-field pl-12"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <button className="btn-secondary w-full sm:w-auto">
-          <Filter size={20} />
-          Filters
-        </button>
       </div>
 
       <div className="table-container">
         {loading ? (
           <div className="p-12 text-center text-chrome/40">Loading participants...</div>
+        ) : filteredParticipants.length === 0 ? (
+          <div className="p-12 text-center text-chrome/40">No participants found.</div>
         ) : (
           <table className="w-full min-w-[600px] text-left border-collapse">
             <thead>
@@ -88,7 +95,7 @@ const ParticipantList = () => {
               </tr>
             </thead>
             <tbody>
-              {participants.map((p) => (
+              {filteredParticipants.map((p) => (
                 <tr key={p.id} className="table-row">
                   <td className="table-cell">
                     <div className="flex items-center gap-4">
