@@ -1,114 +1,299 @@
 # EvalTrack: Mock Evaluation System
 
-A robust, production-grade backend for the **NexaNova Mock Evaluation Management System**, engineered with a modern Spring Boot Microservices Architecture. 
+A robust, production-grade enterprise platform for the **NexaNova Mock Evaluation Management System**, engineered with a modern Spring Boot Microservices Architecture for the backend and a premium React + TypeScript frontend.
 
-EvalTrack is designed to streamline technical training academies by automating the entire lifecycle of mock evaluations. From organizing training batches and assigning evaluators to multi-round scoring and generating AI-powered holistic performance reports, this system provides a highly scalable and fault-tolerant foundation.
+EvalTrack is designed to streamline technical training academies by automating the entire lifecycle of mock evaluations. From organizing training batches and assigning evaluators to multi-round scoring, generating AI-powered holistic performance reports, and providing real-time secure communication, this system provides a highly scalable and fault-tolerant foundation.
+
+---
+
+## 🏗️ System Architecture Overview
+
+```mermaid
+graph TD
+    User([Browser Client]) -->|HTTPS Port 443| Nginx[Nginx Web Server & Reverse Proxy]
+    
+    subgraph "Frontend Static Assets"
+        Nginx -->|Serves Static Files| ReactApp[React + Vite SPA]
+    end
+
+    subgraph "Backend API Gateway Routing"
+        Nginx -->|Proxy Pass /api/*| Gateway[Spring Cloud Gateway: Port 9900]
+    end
+
+    subgraph "Discovery & Configuration"
+        Gateway --> Eureka[Eureka Discovery Server: 8761]
+        Gateway --> Config[Config Server: 8888]
+    end
+
+    subgraph "Microservices Cluster"
+        Gateway --> AuthService[Auth Service: 8081]
+        Gateway --> UserService[User Service: 8082]
+        Gateway --> BatchService[Batch Service: 8083]
+        Gateway --> ParticipantService[Participant Service: 8084]
+        Gateway --> EvalService[Evaluation Service: 8085]
+        Gateway --> ReportService[Report Service: 8086]
+        Gateway --> AIService[AI Service: 8087]
+    end
+
+    subgraph "Asynchronous Messaging"
+        ParticipantService -->|Publishes Events| RabbitMQ[RabbitMQ Message Broker]
+        EvalService -->|Publishes Events| RabbitMQ
+        RabbitMQ -->|Consumes Events| NotificationService[Notification Service: 8088]
+    end
+```
 
 ---
 
 ## 🚀 Key Features & Core Workflows
 
-### 1. Administrative Management
-- **Batch & Technology Control:** Admins can create training batches, define technology stacks (e.g., Java, Python, React), and configure the specific number of evaluation rounds required for each technology.
-- **Participant Enrollment:** Admins manage participant profiles and formally enroll them into specific batch-technologies.
-- **Evaluator Assignment:** Admins assign qualified evaluators to specific participants for specific rounds to ensure unbiased scoring and even workload distribution.
+### 1. Administrative Operations
+* **Batch & Technology Control:** Admins manage training batches, define technology stacks (e.g., Java, Python, React), and configure evaluation rounds.
+* **Participant Enrollment:** Admins manage profiles and enroll students into specific batch-technologies.
+* **Evaluator Assignment:** Admins assign qualified evaluators to specific participants for specific rounds with balanced workload distribution.
+* **Dynamic Search & Pagination:** Premium, real-time client-side and server-side filtering for batches, users, participants, enrollments, and assignments, including client-side pagination fallback for flat endpoints.
 
 ### 2. Evaluator Operations
-- **Assignment Tracking:** Evaluators receive personalized dashboards via the API to view their pending participant evaluation assignments.
-- **Dynamic Scoring:** Evaluators input scores (out of 10) and qualitative feedback for each round they conduct.
+* **Assignment Tracking:** Evaluators receive personalized dashboards to view pending assignments.
+* **Dynamic Scoring:** Evaluators input quantitative scores (0-10) and comprehensive qualitative feedback.
 
 ### 3. Reporting & AI Integration
-- **Aggregated Reports:** The system mathematically compiles scores across all rounds for a participant to generate a holistic view of their performance.
-- **AI-Powered Insights:** Integrated with OpenRouter (DeepSeek V3), the AI service analyzes the evaluator feedback and scores to generate comprehensive, human-like summaries, strengths, and targeted improvement strategies for each participant.
-- **Document Exporting:** Admins can export detailed Batch and Participant analytical reports in standard PDF and CSV formats.
-
-### 4. Asynchronous Notifications
-- **Event-Driven Emails:** Utilizing RabbitMQ, the system automatically triggers background notification events (e.g., when a participant is enrolled or an evaluation is completed) without blocking the main application threads.
+* **Aggregated Reports:** Synthesizes scores across all rounds to construct comprehensive metrics.
+* **AI-Powered Insights:** Integrated with OpenRouter (DeepSeek V3), the AI service analyzes scores and qualitative comments to generate holistic strengths and growth paths.
+* **Asynchronous Notifications:** Dispatches transactional email notifications in the background using RabbitMQ and Spring Boot Mail.
 
 ---
 
-## 🏗️ Microservices Architecture
+## 🛠️ Technology Stack
 
-The system strictly adheres to Domain-Driven Design (DDD), decomposing the domain into highly cohesive, loosely coupled microservices:
+### Backend Microservices
+* **Core Framework:** Java 17, Spring Boot 3.2.3, Spring Cloud 2023.0.0 (Eureka, Config, Gateway, OpenFeign)
+* **Message Broker:** RabbitMQ (for event-driven asynchronous operations)
+* **Caching & Rate Limiting:** Redis Reactive (Gateway IP rate-limiting)
+* **Databases:** PostgreSQL 15 (dedicated databases per service to guarantee domain isolation)
 
-### Core Infrastructure
-- **discovery-service**: Eureka Server for dynamic service registration and client-side load balancing.
-- **config-service**: Spring Cloud Config Server providing centralized, externalized configuration management across all environments.
-- **api-gateway**: Spring Cloud Gateway acting as the single external entry point. It handles request routing, Redis-backed IP rate-limiting, and global JWT authentication enforcement.
-
-### Business Domains
-- **auth-service**: Dedicated authentication authority for secure login, BCrypt password verification, and JWT token generation.
-- **user-service**: Management of system identities and roles (Admin vs. Evaluator) featuring optimized, paginated record listings.
-- **batch-service**: The source of truth for training batches, curriculum technologies, and evaluation configurations.
-- **participant-service**: Manages participant profiles and their lifecycle enrollments. Emits AMQP events to the message broker upon state changes.
-- **evaluation-service**: The orchestration layer for assigning evaluators and recording scores. Features robust Feign Client fallbacks to handle downstream network failures.
-- **report-service**: Aggregates distributed scoring data across multiple services to construct and export visual PDF/CSV reports.
-- **ai-service**: A reactive, WebFlux-driven service that asynchronously communicates with external LLM providers (OpenRouter) to generate performance insights.
-- **notification-service**: A consumer service that constantly listens to RabbitMQ queues (`evaltrack.exchange`) and dispatches responsive email notifications.
-- **common-lib**: Shared Maven library standardizing DTOs, cross-cutting global exceptions, and security utilities to eliminate code duplication.
+### Frontend Application
+* **Core Framework:** React 18, TypeScript, Vite 5.x
+* **Styling & Responsive Design:** Tailwind CSS with custom editorial minimalist themes and layout shells matching all screen sizes (mobile, tablet, desktop).
+* **Network Client:** Axios with dynamic JWT interceptors.
 
 ---
 
-## 🛠️ Tech Stack & Resilience Patterns
+## 📦 Build & Development Instructions
 
-### Core Frameworks
-- **Java 17**
-- **Spring Boot 3.2.3**
-- **Spring Cloud 2023.0.0** (Eureka, Config, Gateway, OpenFeign)
-
-### Persistence & Message Brokering
-- **PostgreSQL 15**: Dedicated database instances per service to enforce strict microservice data isolation.
-- **Redis**: In-memory data structure store utilizing Spring Data Redis Reactive for Gateway Request Rate Limiting.
-- **RabbitMQ**: Advanced Message Queuing Protocol broker for decoupled inter-service communication.
-
-### Advanced Resilience Mechanisms
-- **Circuit Breakers & Fallbacks**: Implementation of OpenFeign fallbacks. If a service (e.g., `user-service`) goes offline, the `evaluation-service` degrades gracefully, returning safe empty states rather than cascading `500 Internal Server Error`s.
-- **API Rate Limiting**: Token-bucket algorithm applied at the Gateway level to prevent volumetric abuse and brute-forcing.
-- **Container Health Checks**: Docker Compose is configured with native `pg_isready` health checks, ensuring Spring Boot applications only boot once their databases are fully initialized, eliminating startup race conditions.
-
----
-
-## ⚙️ Setup Instructions
-
-### Prerequisites
-- Docker and Docker Compose
-- Java 17 (for local development)
-- Maven 3.8+ (for local development)
-
-### Running the Cluster
-
-1. **Clone the repository.**
-2. **Configure Environment Variables:**
-   - Create a `.env` file in the root directory (use `.env.template` as a baseline).
-   - Ensure you strictly define your `DB_PASSWORD`, `JWT_SECRET` (min 32 chars), and `OPENROUTER_API_KEY`.
-3. **Build the Project:**
-   Execute a full Maven build to compile the modules and package the `.jar` files:
+### 1. Backend Microservices Build
+To compile the Java microservices and build standard executable JAR files:
+1. Ensure Java 17 and Maven 3.8+ are installed.
+2. Navigate to the `Backend` directory:
+   ```bash
+   cd Backend
+   ```
+3. Run the full Maven package lifecycle (skipping tests for speed):
    ```bash
    mvn clean package -DskipTests
    ```
-4. **Run with Docker Compose:**
-   Spin up the entire infrastructure (databases, brokers, and all 11 microservices):
+4. Build and start the entire Docker container cluster locally:
    ```bash
    docker-compose up --build -d
    ```
-   *Note: The system utilizes `service_healthy` conditions. Please allow up to 60 seconds for all Spring Boot services to detect their databases and boot sequentially.*
 
-### Access Points
-- **API Gateway (Main Entrypoint):** `http://localhost:9900`
-- **Eureka Dashboard:** `http://localhost:8761`
-- **Config Server:** `http://localhost:8888`
-- **RabbitMQ Management:** `http://localhost:15672` (if port mapped)
+### 2. Frontend Development & Build
+1. Navigate to the `Frontend` directory:
+   ```bash
+   cd Frontend
+   ```
+2. Install dependencies matching the package lockfile:
+   ```bash
+   npm ci
+   ```
+3. Run the local development server:
+   ```bash
+   npm run dev
+   ```
+4. Compile the production bundle:
+   ```bash
+   npm run build
+   ```
+   *This generates clean, minified static HTML, JS, and CSS files under `Frontend/dist/`.*
 
 ---
 
-## 📚 API Documentation Snapshot
+## 🌐 Production Deployment Guide (AWS EC2 & Nginx)
 
-All API traffic must be routed through the API Gateway at `localhost:9900` and authenticated using a Bearer token.
+This guide documents the enterprise-grade production environment deployed on the **AWS EC2 instance** (`13.202.248.158`) serving **`https://evaltrack.online`**.
 
-- **Authentication**: `POST /api/auth/login`
-- **Batches**: `GET /api/batches` (Admin Only)
-- **Evaluations**: `GET /api/evaluation-assignments/my` (Evaluator Access)
-- **Reports**: `GET /api/reports/batch/{batchId}/technology/{techId}` (Admin Only)
-- **AI Summary**: `GET /api/ai/analyze/participant/{participantId}`
+### 1. Nginx Web Server Setup
+Nginx acts as both the static web host for the compiled React SPA and a secure reverse proxy for all API requests.
 
-*(Note: Refer to the comprehensive Postman collection or OpenAPI spec for the full list of 50+ endpoints).*
+* **Frontend Web Directory:** `/var/www/html/` (contains files copied from `Frontend/dist/` after compiling).
+* **Nginx Configuration:** Located at `/etc/nginx/sites-available/default`.
+
+```nginx
+server {
+    server_name evaltrack.online www.evaltrack.online;
+
+    root /var/www/html;
+    index index.html;
+
+    # Frontend Routing Fallback (prevents 404 on browser refresh)
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Secure API Reverse Proxy (avoids Mixed Content and CORS issues)
+    location /api/ {
+        proxy_pass http://127.0.0.1:9900;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/evaltrack.online/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/evaltrack.online/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+    if ($host = www.evaltrack.online) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = evaltrack.online) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name evaltrack.online www.evaltrack.online;
+    return 404; # managed by Certbot
+}
+```
+
+### 2. HTTPS & SSL Certificate Configuration
+Let's Encrypt certificates are configured on the EC2 server using Certbot:
+1. **Installation:**
+   ```bash
+   sudo apt update
+   sudo apt install certbot python3-certbot-nginx -y
+   ```
+2. **Generation & Automatic Configuration:**
+   ```bash
+   sudo certbot --nginx -d evaltrack.online -d www.evaltrack.online
+   ```
+3. **Auto-Renewal Verification:**
+   ```bash
+   sudo certbot renew --dry-run
+   ```
+   *Certbot automatically installs a systemd timer background task to renew the certificate before it expires.*
+
+---
+
+## 🔄 CI/CD Automation (GitHub Actions)
+
+An automated deployment pipeline is configured in `.github/workflows/deploy.yml` to compile and deploy frontend changes automatically upon every push to the `main` branch.
+
+### 1. Required GitHub Secrets
+Configure the following secrets under **Settings ➔ Secrets and variables ➔ Actions** in your GitHub repository:
+* `EC2_HOST`: The public IP of your EC2 instance (`13.202.248.158`).
+* `EC2_USER`: The default EC2 SSH user (`ubuntu`).
+* `SSH_PRIVATE_KEY`: The complete contents of your private SSH key (`.pem` file).
+
+### 2. Deployment Workflow Diagram
+```mermaid
+sequenceDiagram
+    participant Git as Git Push (main)
+    participant GH as GitHub Actions Runner
+    participant EC2 as production EC2 Instance
+    
+    Git->>GH: Triggers deploy.yml
+    activate GH
+    GH->>GH: Checks out code
+    GH->>GH: Installs Node.js 20 & Cached npm modules
+    GH->>GH: Runs npm ci & npm run build (Verification)
+    
+    Note over GH: If verification passes
+    
+    GH->>EC2: SSH Connection via Private Key
+    activate EC2
+    EC2->>EC2: git pull origin main
+    EC2->>EC2: Build production dist assets
+    EC2->>EC2: Copy build assets to /var/www/html/
+    EC2->>EC2: reload nginx
+    EC2-->>GH: Deployment Successful!
+    deactivate EC2
+    deactivate GH
+```
+
+### 3. Workflow File Details
+The workflow automatically checks for changes in the `Frontend/` folder, verifies compilation, and pushes securely to the EC2 server:
+
+```yaml
+name: Deploy EvalTrack Frontend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Frontend/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  build-and-test:
+    name: Build & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: Frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          cd Frontend
+          npm ci
+
+      - name: Verify Production Build
+        run: |
+          cd Frontend
+          npm run build
+
+  deploy:
+    name: Deploy to Production
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute Remote Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "==== Starting Deployment on EC2 ===="
+            cd ~/NexaNova-Task-3
+            
+            echo "Fetching latest changes from main branch..."
+            git pull origin main
+            
+            echo "Building production assets..."
+            cd Frontend
+            npm install
+            npm run build
+            
+            echo "Copying static assets to web directory..."
+            sudo cp -r dist/* /var/www/html/
+            
+            echo "Reloading Nginx server..."
+            sudo systemctl reload nginx
+            
+            echo "==== Deployment Completed Successfully! ===="
+```
