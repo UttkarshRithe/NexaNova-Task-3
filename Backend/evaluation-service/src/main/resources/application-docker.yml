@@ -3,6 +3,11 @@ spring:
     url: jdbc:postgresql://evaluation-db:5432/evaluation_db
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 
 eureka:
   client:
