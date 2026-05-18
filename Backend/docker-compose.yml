@@ -95,12 +95,15 @@ services:
       - "8761:8761"
     environment:
       EUREKA_HOSTNAME: discovery-service
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
 
   config-service:
     build: ./config-service
     container_name: config-service
     ports:
       - "8888:8888"
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       - discovery-service
 
@@ -114,6 +117,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
       SPRING_DATA_REDIS_HOST: redis
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       - discovery-service
       - config-service
@@ -129,6 +133,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       discovery-service:
         condition: service_started
@@ -146,6 +151,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       batch-db:
         condition: service_healthy
@@ -163,6 +169,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       user-db:
         condition: service_healthy
@@ -180,6 +187,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       participant-db:
         condition: service_healthy
@@ -198,6 +206,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
       RABBITMQ_HOST: rabbitmq
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       evaluation-db:
         condition: service_healthy
@@ -216,6 +225,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
       RABBITMQ_HOST: rabbitmq
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     volumes:
       - shared_reports:/app/temp_reports
     depends_on:
@@ -235,6 +245,7 @@ services:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       JWT_SECRET: ${JWT_SECRET}
       SERVER_URL: ${SERVER_URL}
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     depends_on:
       - discovery-service
 
@@ -251,6 +262,7 @@ services:
       SERVER_URL: ${SERVER_URL}
       RABBITMQ_HOST: rabbitmq
       EUREKA_SERVER: http://discovery-service:8761/eureka/
+      JAVA_TOOL_OPTIONS: "-Xmx256m -Xms128m"
     volumes:
       - shared_reports:/app/temp_reports
     depends_on:
