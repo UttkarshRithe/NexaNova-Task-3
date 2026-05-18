@@ -105,7 +105,9 @@ const EvaluationAssignmentList = () => {
       ]);
       const rawEnrollments = parseEnrollmentPayload(enRes.data?.data);
       setEnrollments(enrichEnrollmentsWithProgram(rawEnrollments, btRes.data?.data || []));
-      setEvaluators(evRes.data?.data || []);
+      
+      const rawEvaluators = evRes.data?.data?.content || evRes.data?.data || [];
+      setEvaluators(Array.isArray(rawEvaluators) ? rawEvaluators : []);
     } catch (error: any) {
       console.error('Failed to load selection data', error);
       setEnrollments([]);
