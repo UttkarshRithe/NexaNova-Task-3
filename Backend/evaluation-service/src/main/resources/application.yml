@@ -2,6 +2,8 @@ server:
   port: 8085
 
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
   application:
     name: evaluation-service
 
@@ -34,6 +36,7 @@ spring:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
+    validate-on-migrate: false
 
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
@@ -55,4 +58,5 @@ jwt:
 
 springdoc:
   servers:
-    - url: http://13.202.248.158:9900
+    - url: ${SERVER_URL:http://localhost:9900}
+      description: API Server

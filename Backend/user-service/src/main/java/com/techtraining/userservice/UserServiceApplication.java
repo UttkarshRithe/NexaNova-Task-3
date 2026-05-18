@@ -13,10 +13,7 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @OpenAPIDefinition(
-        info = @Info(title = "User Service API", version = "v1"),
-        servers = {
-                @Server(url = "http://13.202.248.158:9900")
-        }
+        info = @Info(title = "User Service API", version = "v1")
 )
 
 @SpringBootApplication(

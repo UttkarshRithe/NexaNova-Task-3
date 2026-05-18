@@ -1,0 +1,39 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+        - id: batch-service
+          uri: lb://batch-service
+          predicates:
+            - Path=/api/batches/**,/api/technologies/**,/api/batch-technology/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+        - id: participant-service
+          uri: lb://participant-service
+          predicates:
+            - Path=/api/participants/**,/api/enrollments/**
+        - id: evaluation-service
+          uri: lb://evaluation-service
+          predicates:
+            - Path=/api/evaluation-assignments/**,/api/evaluation-results/**
+        - id: report-service
+          uri: lb://report-service
+          predicates:
+            - Path=/api/reports/**
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/api/ai/**

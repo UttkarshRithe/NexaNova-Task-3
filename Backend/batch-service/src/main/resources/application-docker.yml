@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://batch-db:5432/batch_db
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
