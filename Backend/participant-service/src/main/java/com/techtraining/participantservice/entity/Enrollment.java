@@ -31,6 +31,11 @@ public class Enrollment {
     @Column(name = "batch_technology_id", nullable = false)
     private Long batchTechnologyId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private com.techtraining.common.enums.EntityStatus status = com.techtraining.common.enums.EntityStatus.ACTIVE;
+
     @CreationTimestamp
     @Column(name = "enrolled_at", updatable = false)
     private LocalDateTime enrolledAt;

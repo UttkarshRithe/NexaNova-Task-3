@@ -245,7 +245,7 @@ const AdminDashboard = () => {
         </div>
 
         <div className="card">
-          <h2 className="text-xl font-serif mb-6">System Health</h2>
+          <h2 className="text-xl font-serif mb-6">Evaluator Activity</h2>
           <div className="space-y-6">
             <div>
               <div className="flex justify-between text-sm mb-2">

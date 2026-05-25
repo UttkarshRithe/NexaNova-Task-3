@@ -23,6 +23,8 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     private final TechnologyRepository technologyRepository;
     private final TechnologyMapper technologyMapper;
+    private final com.techtraining.batchservice.repository.BatchTechnologyRepository batchTechnologyRepository;
+    private final com.techtraining.batchservice.client.EnrollmentClient enrollmentClient;
 
     @Override
     @Transactional
@@ -47,7 +49,7 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     @Cacheable(value = "technologies")
     public List<TechnologyResponse> getAllTechnologies() {
-        return technologyMapper.toResponseList(technologyRepository.findAll());
+        return technologyMapper.toResponseList(technologyRepository.findByStatus(com.techtraining.common.enums.EntityStatus.ACTIVE));
     }
 
     @Override
@@ -65,9 +67,25 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Transactional
     @CacheEvict(value = "technologies", allEntries = true)
     public void deleteTechnology(Long id) {
-        if (!technologyRepository.existsById(id)) {
-            throw new ResourceNotFoundException(AppConstants.TECH_NOT_FOUND + id);
+        Technology technology = technologyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(AppConstants.TECH_NOT_FOUND + id));
+
+        // Safety Validation: Block Technology deletion if any enrollments exist referencing it.
+        java.util.List<com.techtraining.batchservice.entity.BatchTechnology> bts = batchTechnologyRepository.findByTechnologyId(id);
+        for (com.techtraining.batchservice.entity.BatchTechnology bt : bts) {
+            java.util.List<java.util.Map<String, Object>> enrollments = null;
+            try {
+                enrollments = enrollmentClient.getEnrollmentsByBatchTechnologyInternal(bt.getId());
+            } catch (Exception e) {
+                // Ignore or log
+            }
+
+            if (enrollments != null && !enrollments.isEmpty()) {
+                throw new IllegalStateException("Technology deletion blocked: active enrollments exist referencing this technology.");
+            }
         }
-        technologyRepository.deleteById(id);
+
+        technology.setStatus(com.techtraining.common.enums.EntityStatus.ARCHIVED);
+        technologyRepository.save(technology);
     }
 }

@@ -27,6 +27,7 @@ public class BatchTechnologyServiceImpl implements BatchTechnologyService {
     private final BatchRepository batchRepository;
     private final TechnologyRepository technologyRepository;
     private final BatchTechnologyMapper batchTechnologyMapper;
+    private final com.techtraining.batchservice.client.EnrollmentClient enrollmentClient;
 
     @Override
     @Transactional
@@ -86,9 +87,21 @@ public class BatchTechnologyServiceImpl implements BatchTechnologyService {
     @Override
     @Transactional
     public void deleteBatchTechnology(Long id) {
-        if (!batchTechnologyRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Batch-Technology link not found with id: " + id);
+        BatchTechnology bt = batchTechnologyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Batch-Technology link not found with id: " + id));
+
+        // Safety Validation: Block deletion if enrollments exist
+        java.util.List<java.util.Map<String, Object>> enrollments = null;
+        try {
+            enrollments = enrollmentClient.getEnrollmentsByBatchTechnologyInternal(bt.getId());
+        } catch (Exception e) {
+            // Ignore or log
         }
+
+        if (enrollments != null && !enrollments.isEmpty()) {
+            throw new IllegalStateException("Cannot delete rounds configuration: active enrollments exist referencing it.");
+        }
+
         batchTechnologyRepository.deleteById(id);
     }
 }

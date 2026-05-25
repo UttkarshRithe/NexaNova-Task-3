@@ -46,6 +46,51 @@ public class AssignmentServiceImpl implements AssignmentService {
             throw new DuplicateResourceException("Assignment already exists for this enrollment and round.");
         }
 
+        // Validate round limits
+        try {
+            Map<String, Object> enrollmentResponse = participantClient.getEnrollmentById(request.getEnrollmentId());
+            if (enrollmentResponse != null) {
+                Object dataObj = enrollmentResponse.get("data");
+                Map<String, Object> data = null;
+                if (dataObj instanceof Map) {
+                    data = (Map<String, Object>) dataObj;
+                } else {
+                    data = enrollmentResponse;
+                }
+
+                Object btIdObj = data.get("batchTechnologyId");
+                if (btIdObj instanceof Number btIdNumber) {
+                    Map<String, Object> batchTechnologyResponse = batchClient.getBatchTechnologyById(btIdNumber.longValue());
+                    if (batchTechnologyResponse != null) {
+                        Object btDataObj = batchTechnologyResponse.get("data");
+                        Map<String, Object> btData = null;
+                        if (btDataObj instanceof Map) {
+                            btData = (Map<String, Object>) btDataObj;
+                        } else {
+                            btData = batchTechnologyResponse;
+                        }
+                        
+                        Object totalRoundsObj = btData.get("totalRounds");
+                        if (totalRoundsObj instanceof Number totalRoundsNum) {
+                            int totalRounds = totalRoundsNum.intValue();
+                            if (request.getRoundNumber() > totalRounds) {
+                                throw new IllegalStateException("Round number " + request.getRoundNumber() + " exceeds the configured total rounds (" + totalRounds + ") for this batch technology.");
+                            }
+                            
+                            int existingCount = assignmentRepository.findByEnrollmentId(request.getEnrollmentId()).size();
+                            if (existingCount >= totalRounds) {
+                                throw new IllegalStateException("Cannot create assignment: total assignments cannot exceed configured total rounds (" + totalRounds + ") for this batch technology.");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IllegalStateException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Failed to perform assignment round limits validation: {}", e.getMessage());
+        }
+
         // Validate evaluator
         try {
 
@@ -188,10 +233,15 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     @Transactional
     public void deleteAssignment(Long id) {
-        if (!assignmentRepository.existsById(id)) {
-            throw new ResourceNotFoundException(AppConstants.ASSIGNMENT_NOT_FOUND + id);
+        EvaluationAssignment assignment = assignmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(AppConstants.ASSIGNMENT_NOT_FOUND + id));
+        
+        if (assignment.getStatus() == com.techtraining.evaluationservice.enums.AssignmentStatus.COMPLETED) {
+            throw new IllegalStateException("Cannot delete assignment: evaluation is already completed.");
         }
-        assignmentRepository.deleteById(id);
+        
+        resultRepository.deleteByAssignmentIdIn(java.util.List.of(id));
+        assignmentRepository.delete(assignment);
     }
 
     @Override

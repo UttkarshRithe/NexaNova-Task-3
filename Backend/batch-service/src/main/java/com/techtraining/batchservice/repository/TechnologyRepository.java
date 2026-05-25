@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface TechnologyRepository extends JpaRepository<Technology, Long> {
     boolean existsByName(String name);
     Optional<Technology> findByName(String name);
+    java.util.List<Technology> findByStatus(com.techtraining.common.enums.EntityStatus status);
+    org.springframework.data.domain.Page<Technology> findByStatus(com.techtraining.common.enums.EntityStatus status, org.springframework.data.domain.Pageable pageable);
 }

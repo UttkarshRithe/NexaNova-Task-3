@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
+import java.util.Map;
+
 @FeignClient(
         name = "evaluation-service",
         url = "http://evaluation-service:8085",
@@ -18,4 +22,7 @@ public interface EvaluationClient {
             @PathVariable("id") Long enrollmentId,
             @RequestHeader("X-Internal-Secret") String internalSecret
     );
+
+    @GetMapping("/api/evaluation-assignments/internal/enrollment/{id}")
+    List<Map<String, Object>> getAssignmentsByEnrollmentInternal(@PathVariable("id") Long enrollmentId);
 }

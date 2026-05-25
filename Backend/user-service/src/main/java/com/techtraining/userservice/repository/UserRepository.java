@@ -13,9 +13,10 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
-    Optional<User> findByEmailAndIsActiveTrue(String email);
-    List<User> findByIsActiveTrue();
-    Page<User> findByIsActiveTrue(Pageable pageable);
-    Page<User> findByRoleAndIsActiveTrue(UserRole role, Pageable pageable);
+    Optional<User> findByEmailAndStatus(String email, com.techtraining.common.enums.EntityStatus status);
+    List<User> findByStatus(com.techtraining.common.enums.EntityStatus status);
+    Page<User> findByStatus(com.techtraining.common.enums.EntityStatus status, Pageable pageable);
+    Page<User> findByRoleAndStatus(UserRole role, com.techtraining.common.enums.EntityStatus status, Pageable pageable);
+    List<User> findByRoleAndStatus(UserRole role, com.techtraining.common.enums.EntityStatus status);
     boolean existsByEmail(String email);
 }

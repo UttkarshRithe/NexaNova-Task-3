@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Profile("dev")
+@Profile({"dev", "docker", "local"})
 @Order(4)
 @RequiredArgsConstructor
 @Slf4j

@@ -21,6 +21,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     private final ParticipantRepository participantRepository;
     private final ParticipantMapper participantMapper;
+    private final com.techtraining.participantservice.repository.EnrollmentRepository enrollmentRepository;
 
     @Override
     @Transactional
@@ -42,12 +43,12 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Override
     public Page<ParticipantResponse> getAllParticipants(Pageable pageable) {
-        return participantRepository.findAll(pageable).map(participantMapper::toResponse);
+        return participantRepository.findByStatus(com.techtraining.common.enums.EntityStatus.ACTIVE, pageable).map(participantMapper::toResponse);
     }
     
     @Override
     public java.util.List<ParticipantResponse> getAllParticipants() {
-        return participantRepository.findAll().stream()
+        return participantRepository.findByStatus(com.techtraining.common.enums.EntityStatus.ACTIVE).stream()
                 .map(participantMapper::toResponse)
                 .collect(java.util.stream.Collectors.toList());
     }
@@ -69,9 +70,14 @@ public class ParticipantServiceImpl implements ParticipantService {
     @Override
     @Transactional
     public void deleteParticipant(Long id) {
-        if (!participantRepository.existsById(id)) {
-            throw new ResourceNotFoundException(AppConstants.PARTICIPANT_NOT_FOUND + id);
+        Participant participant = participantRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(AppConstants.PARTICIPANT_NOT_FOUND + id));
+        
+        if (!enrollmentRepository.findByParticipantIdAndStatus(id, com.techtraining.common.enums.EntityStatus.ACTIVE).isEmpty()) {
+            throw new IllegalStateException("Participant deletion blocked: enrolled in active batches.");
         }
-        participantRepository.deleteById(id);
+        
+        participant.setStatus(com.techtraining.common.enums.EntityStatus.ARCHIVED);
+        participantRepository.save(participant);
     }
 }

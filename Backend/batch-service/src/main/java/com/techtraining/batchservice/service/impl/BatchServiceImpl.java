@@ -21,6 +21,9 @@ public class BatchServiceImpl implements BatchService {
 
     private final BatchRepository batchRepository;
     private final BatchMapper batchMapper;
+    private final com.techtraining.batchservice.repository.BatchTechnologyRepository batchTechnologyRepository;
+    private final com.techtraining.batchservice.client.EnrollmentClient enrollmentClient;
+    private final com.techtraining.batchservice.client.EvaluationAssignmentClient evaluationAssignmentClient;
 
     @Override
     @Transactional
@@ -42,7 +45,7 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public Page<BatchResponse> getAllBatches(Pageable pageable) {
-        return batchRepository.findAll(pageable).map(batchMapper::toResponse);
+        return batchRepository.findByStatus(com.techtraining.common.enums.EntityStatus.ACTIVE, pageable).map(batchMapper::toResponse);
     }
 
     @Override
@@ -50,11 +53,32 @@ public class BatchServiceImpl implements BatchService {
     public BatchResponse updateBatch(Long id, BatchRequest request) {
         Batch batch = batchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(AppConstants.BATCH_NOT_FOUND + id));
-        
+
+        // Mutability Rule: Once an enrollment exists, batch startDate is immutable
+        java.util.List<com.techtraining.batchservice.entity.BatchTechnology> bts = batchTechnologyRepository.findByBatchId(id);
+        boolean enrollmentExists = false;
+        for (com.techtraining.batchservice.entity.BatchTechnology bt : bts) {
+            try {
+                java.util.List<java.util.Map<String, Object>> enrollments = enrollmentClient.getEnrollmentsByBatchTechnologyInternal(bt.getId());
+                if (enrollments != null && !enrollments.isEmpty()) {
+                    enrollmentExists = true;
+                    break;
+                }
+            } catch (Exception e) {
+                // Ignore internal check errors or log
+            }
+        }
+
+        if (enrollmentExists) {
+            if (!batch.getStartDate().equals(request.getStartDate())) {
+                throw new IllegalStateException("Cannot change batch start date once enrollments exist.");
+            }
+        }
+
         batch.setName(request.getName());
         batch.setStartDate(request.getStartDate());
         batch.setEndDate(request.getEndDate());
-        
+
         Batch updatedBatch = batchRepository.save(batch);
         return batchMapper.toResponse(updatedBatch);
     }
@@ -62,9 +86,25 @@ public class BatchServiceImpl implements BatchService {
     @Override
     @Transactional
     public void deleteBatch(Long id) {
-        if (!batchRepository.existsById(id)) {
-            throw new ResourceNotFoundException(AppConstants.BATCH_NOT_FOUND + id);
+        Batch batch = batchRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(AppConstants.BATCH_NOT_FOUND + id));
+
+        // Safety Validation: Block Batch deletion if any enrollments exist or future scheduled rounds/assignments exist.
+        java.util.List<com.techtraining.batchservice.entity.BatchTechnology> bts = batchTechnologyRepository.findByBatchId(id);
+        for (com.techtraining.batchservice.entity.BatchTechnology bt : bts) {
+            java.util.List<java.util.Map<String, Object>> enrollments = null;
+            try {
+                enrollments = enrollmentClient.getEnrollmentsByBatchTechnologyInternal(bt.getId());
+            } catch (Exception e) {
+                // Ignore or log
+            }
+
+            if (enrollments != null && !enrollments.isEmpty()) {
+                throw new IllegalStateException("Batch deletion blocked: enrollments exist for this batch.");
+            }
         }
-        batchRepository.deleteById(id);
+
+        batch.setStatus(com.techtraining.common.enums.EntityStatus.ARCHIVED);
+        batchRepository.save(batch);
     }
 }

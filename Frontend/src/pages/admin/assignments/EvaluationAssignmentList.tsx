@@ -197,51 +197,75 @@ const EvaluationAssignmentList = () => {
                   <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                {filteredAssignments.map((as) => (
-                  <tr key={as.id} className="table-row">
-                    <td className="table-cell">
-                      <p className="font-medium">{as.participantName}</p>
-                    </td>
-                    <td className="table-cell">
-                      <div>
-                        <p className="font-medium text-primary">{as.technologyName}</p>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-chrome/40">
-                          {as.batchName} • Round {as.roundNumber}
-                        </p>
-                      </div>
-                    </td>
-                    <td className="table-cell">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-surface flex items-center justify-center text-[10px] font-bold flex-shrink-0">
-                          {as.evaluatorName?.[0]}
-                        </div>
-                        <span className="text-sm">{as.evaluatorName}</span>
-                      </div>
-                    </td>
-                    <td className="table-cell">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border
-                        ${as.status === 'COMPLETED' 
-                          ? 'bg-status-success/10 text-status-success border-status-success/20' 
-                          : 'bg-status-warning/10 text-status-warning border-status-warning/20'}`}
-                      >
-                        {as.status}
-                      </span>
-                    </td>
-                    <td className="table-cell text-right">
-                      <button 
-                        onClick={() => {
-                          setSelectedId(as.id!);
-                          setIsDeleteModalOpen(true);
-                        }}
-                        className="p-2 hover:bg-status-error/10 rounded transition-colors text-status-error"
-                        title="Delete Assignment"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+               <tbody>
+                {(() => {
+                  const grouped: { [key: string]: typeof filteredAssignments } = {};
+                  filteredAssignments.forEach(as => {
+                    const key = as.participantName || '';
+                    if (!grouped[key]) {
+                      grouped[key] = [];
+                    }
+                    grouped[key].push(as);
+                  });
+
+                  return Object.entries(grouped).map(([participantName, items]) => (
+                    <React.Fragment key={participantName}>
+                      {items.map((as, index) => (
+                        <tr key={as.id} className="table-row">
+                          {index === 0 && (
+                            <td className="table-cell align-top" rowSpan={items.length}>
+                              <p className="font-medium">{participantName}</p>
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-chrome/40">
+                                {as.batchName}
+                              </p>
+                            </td>
+                          )}
+
+                          <td className="table-cell">
+                            <div>
+                              <p className="font-medium text-primary">{as.technologyName}</p>
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-chrome/40">
+                                Round {as.roundNumber}
+                              </p>
+                            </div>
+                          </td>
+
+                          <td className="table-cell">
+                            <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 rounded-full bg-surface flex items-center justify-center text-[10px] font-bold flex-shrink-0">
+                                {as.evaluatorName?.[0]}
+                              </div>
+                              <span className="text-sm">{as.evaluatorName}</span>
+                            </div>
+                          </td>
+
+                          <td className="table-cell">
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border
+                              ${as.status === 'COMPLETED' 
+                                ? 'bg-status-success/10 text-status-success border-status-success/20' 
+                                : 'bg-status-warning/10 text-status-warning border-status-warning/20'}`}
+                            >
+                              {as.status}
+                            </span>
+                          </td>
+
+                          <td className="table-cell text-right">
+                            <button 
+                              onClick={() => {
+                                setSelectedId(as.id!);
+                                setIsDeleteModalOpen(true);
+                              }}
+                              className="p-2 hover:bg-status-error/10 rounded transition-colors text-status-error"
+                              title="Delete Assignment"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </React.Fragment>
+                  ));
+                })()}
               </tbody>
             </table>
             {/* Pagination */}

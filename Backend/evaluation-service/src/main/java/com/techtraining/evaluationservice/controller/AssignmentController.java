@@ -108,4 +108,20 @@ public ResponseEntity<ApiResponse<List<AssignmentResponse>>> getMyAssignments(
         assignmentService.deleteAssignmentsByEnrollmentId(id);
         return ResponseEntity.ok(ApiResponse.success("Assignments removed for enrollment", null));
     }
+
+    @GetMapping("/internal/enrollment/{id}")
+    public List<AssignmentResponse> getAssignmentsByEnrollmentInternal(@PathVariable Long id) {
+        return assignmentService.getAssignmentsByEnrollment(id);
+    }
+
+    @GetMapping("/internal/evaluator/{evaluatorId}/has-pending")
+    public boolean hasPendingAssignments(@PathVariable Long evaluatorId) {
+        List<AssignmentResponse> assignments = assignmentService.getMyAssignments(evaluatorId);
+        for (AssignmentResponse a : assignments) {
+            if (a.getStatus() == com.techtraining.evaluationservice.enums.AssignmentStatus.PENDING) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

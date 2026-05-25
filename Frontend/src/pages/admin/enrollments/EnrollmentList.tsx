@@ -188,38 +188,54 @@ const EnrollmentList = () => {
             </thead>
 
              <tbody>
-              {paginatedEnrollments.map((en) => (
-                <tr key={en.id} className="table-row">
-                  <td className="table-cell">
-                    <p className="font-medium">{en.participantName}</p>
-                  </td>
+              {(() => {
+                const grouped: { [key: string]: typeof paginatedEnrollments } = {};
+                paginatedEnrollments.forEach(en => {
+                  const key = en.participantName || '';
+                  if (!grouped[key]) {
+                    grouped[key] = [];
+                  }
+                  grouped[key].push(en);
+                });
 
-                  <td className="table-cell">
-                    <div>
-                      <p className="font-medium text-primary">
-                        {en.technologyName}
-                      </p>
+                return Object.entries(grouped).map(([participantName, items]) => (
+                  <React.Fragment key={participantName}>
+                    {items.map((en, index) => (
+                      <tr key={en.id} className="table-row">
+                        {index === 0 && (
+                          <td className="table-cell align-top" rowSpan={items.length}>
+                            <p className="font-medium">{participantName}</p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-chrome/40">
+                              {en.batchName}
+                            </p>
+                          </td>
+                        )}
 
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-chrome/40">
-                        {en.batchName}
-                      </p>
-                    </div>
-                  </td>
+                        <td className="table-cell">
+                          <div>
+                            <p className="font-medium text-primary">
+                              {en.technologyName}
+                            </p>
+                          </div>
+                        </td>
 
-                  <td className="table-cell text-right">
-                    <button
-                      onClick={() => {
-                        setSelectedId(en.id!);
-                        setIsDeleteModalOpen(true);
-                      }}
-                      className="p-2 hover:bg-status-error/10 rounded transition-colors text-status-error"
-                      title="Cancel Enrollment"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                        <td className="table-cell text-right">
+                          <button
+                            onClick={() => {
+                              setSelectedId(en.id!);
+                              setIsDeleteModalOpen(true);
+                            }}
+                            className="p-2 hover:bg-status-error/10 rounded transition-colors text-status-error"
+                            title="Cancel Enrollment"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ));
+              })()}
             </tbody>
           </table>
         )}

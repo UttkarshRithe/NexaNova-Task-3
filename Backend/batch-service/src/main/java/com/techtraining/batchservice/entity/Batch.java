@@ -31,6 +31,11 @@ public class Batch {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private com.techtraining.common.enums.EntityStatus status = com.techtraining.common.enums.EntityStatus.ACTIVE;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

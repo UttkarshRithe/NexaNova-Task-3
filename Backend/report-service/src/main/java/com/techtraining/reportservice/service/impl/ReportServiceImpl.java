@@ -218,35 +218,70 @@ public class ReportServiceImpl implements ReportService {
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
-            document.add(new Paragraph("🤖 Holistic AI Analysis Report").setFontSize(20).setBold());
-            document.add(new Paragraph("Batch: " + batchName).setFontSize(14));
-            document.add(new Paragraph("Generated on: " + new Date()).setFontSize(10).setItalic());
+            // Dark Header Bar
+            Table header = new Table(UnitValue.createPercentArray(new float[]{70, 30})).setWidth(UnitValue.createPercentValue(100));
+            header.setBackgroundColor(PdfExportService.HEADER_DARK_COLOR);
+            header.addCell(new Cell().add(new Paragraph("EvalTrack").setFontSize(22).setBold().setFontColor(ColorConstants.WHITE))
+                    .add(new Paragraph("Holistic AI Analysis Report").setFontSize(10).setFontColor(new DeviceRgb(200, 200, 200)))
+                    .setBorder(Border.NO_BORDER).setPadding(15));
+            header.addCell(new Cell().add(new Paragraph("Generated: " + pdfExportService.formatDate(LocalDateTime.now())).setFontSize(8).setFontColor(new DeviceRgb(160, 160, 150)))
+                    .add(new Paragraph("EvalTrack v1.0").setFontSize(8).setFontColor(new DeviceRgb(160, 160, 150)))
+                    .setBorder(Border.NO_BORDER).setPadding(15));
+            document.add(header);
 
-            document.add(new Paragraph("\nBatch Health: " + analysis.getOverallHealth()).setBold().setFontSize(14));
+            // Info Bar
+            Table infoBar = new Table(1).setWidth(UnitValue.createPercentValue(100)).setMarginTop(15);
+            infoBar.addCell(new Cell().add(new Paragraph("Batch: " + batchName).setBold().setFontSize(16).setFontColor(PdfExportService.TEXT_PRIMARY))
+                    .setBorder(Border.NO_BORDER));
+            document.add(infoBar);
 
-            document.add(new Paragraph("\nTechnology Summaries:").setBold());
-            Table table = new Table(5);
-            table.setWidth(UnitValue.createPercentValue(100));
-            table.addHeaderCell("Technology");
-            table.addHeaderCell("Avg Score");
-            table.addHeaderCell("Status");
-            table.addHeaderCell("At-Risk");
-            table.addHeaderCell("Trend");
+            // Chips
+            Table chips = new Table(2).setWidth(UnitValue.createPercentValue(45)).setMarginTop(10);
+            chips.addCell(pdfExportService.makeBadge("Holistic Analysis", PdfExportService.SECTION_BG, PdfExportService.TEXT_PRIMARY));
+            chips.addCell(pdfExportService.makeBadge("Health: " + analysis.getOverallHealth(), PdfExportService.SUCCESS_COLOR, ColorConstants.BLACK));
+            document.add(chips);
 
+            // Technology Summaries Table
+            document.add(new Paragraph("\nTechnology Summaries").setBold().setFontSize(14).setMarginTop(20));
+            float[] columnWidths = {25, 15, 20, 20, 20};
+            Table table = new Table(UnitValue.createPercentArray(columnWidths)).setWidth(UnitValue.createPercentValue(100)).setMarginTop(10);
+            String[] headers = {"Technology", "Avg Score", "Status", "At-Risk", "Trend"};
+            for (String h : headers) {
+                table.addHeaderCell(new Cell().add(new Paragraph(h)).setBackgroundColor(PdfExportService.HEADER_DARK_COLOR).setFontColor(ColorConstants.WHITE).setBold().setFontSize(10).setPadding(8));
+            }
+
+            int rowIdx = 0;
             for (BatchAnalysisResponse.TechnologySummary tech : analysis.getTechnologySummaries()) {
-                table.addCell(tech.getName());
-                table.addCell(String.format("%.2f", tech.getAvgScore()));
-                table.addCell(tech.getStatus());
-                table.addCell(String.valueOf(tech.getAtRiskCount()));
-                table.addCell(tech.getTrend());
+                com.itextpdf.kernel.colors.Color rowBg = rowIdx % 2 != 0 ? PdfExportService.SECTION_BG : ColorConstants.WHITE;
+                table.addCell(new Cell().add(new Paragraph(tech.getName()).setBold()).setBackgroundColor(rowBg).setFontSize(10).setPadding(8));
+                table.addCell(new Cell().add(new Paragraph(String.format("%.2f", tech.getAvgScore()))).setBackgroundColor(rowBg).setFontSize(10).setPadding(8));
+                table.addCell(pdfExportService.makeBadge(tech.getStatus(), PdfExportService.SUCCESS_COLOR, ColorConstants.BLACK).setBackgroundColor(rowBg).setPadding(8));
+                table.addCell(new Cell().add(new Paragraph(String.valueOf(tech.getAtRiskCount()))).setBackgroundColor(rowBg).setFontSize(10).setPadding(8));
+                table.addCell(new Cell().add(new Paragraph(tech.getTrend())).setBackgroundColor(rowBg).setFontSize(10).setPadding(8));
+                rowIdx++;
             }
             document.add(table);
 
-            document.add(new Paragraph("\n📝 Holistic Analysis:").setBold());
-            document.add(new Paragraph(analysis.getAiSummary()));
+            // Analysis & Recommendations Sections
+            document.add(new Paragraph("\nHolistic Analysis").setBold().setFontSize(14).setMarginTop(20));
+            Table analysisBox = new Table(1).setWidth(UnitValue.createPercentValue(100)).setMarginTop(5);
+            analysisBox.addCell(new Cell().add(new Paragraph(analysis.getAiSummary()).setFontSize(10).setFontColor(PdfExportService.TEXT_PRIMARY))
+                    .setBackgroundColor(PdfExportService.SECTION_BG).setPadding(10).setBorder(Border.NO_BORDER));
+            document.add(analysisBox);
 
-            document.add(new Paragraph("\n💡 Strategic Recommendation:").setBold());
-            document.add(new Paragraph(analysis.getRecommendation()));
+            document.add(new Paragraph("\nStrategic Recommendation").setBold().setFontSize(14).setMarginTop(15));
+            Table recommendationBox = new Table(1).setWidth(UnitValue.createPercentValue(100)).setMarginTop(5);
+            recommendationBox.addCell(new Cell().add(new Paragraph(analysis.getRecommendation()).setFontSize(10).setFontColor(PdfExportService.TEXT_PRIMARY))
+                    .setBackgroundColor(PdfExportService.SECTION_BG).setPadding(10).setBorder(Border.NO_BORDER));
+            document.add(recommendationBox);
+
+            // Footer
+            document.add(new Paragraph("\n").setMarginTop(20));
+            document.add(new com.itextpdf.layout.element.LineSeparator(new com.itextpdf.kernel.pdf.canvas.draw.SolidLine(1f)).setMarginBottom(5));
+            Table footer = new Table(2).setWidth(UnitValue.createPercentValue(100));
+            footer.addCell(new Cell().add(new Paragraph("EvalTrack — Mock Evaluation System")).setBorder(Border.NO_BORDER).setFontSize(8).setFontColor(PdfExportService.TEXT_SECONDARY));
+            footer.addCell(new Cell().add(new Paragraph("Page 1 of 1")).setBorder(Border.NO_BORDER).setFontSize(8).setFontColor(PdfExportService.TEXT_SECONDARY).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT));
+            document.add(footer);
 
             document.close();
         } catch (Exception e) {
@@ -536,7 +571,7 @@ public class ReportServiceImpl implements ReportService {
                     table.addCell(new Cell().add(new Paragraph("—")).setBackgroundColor(rowBg).setPadding(8));
                     table.addCell(new Cell().add(new Paragraph(round.getEvaluatorName())).setBackgroundColor(rowBg).setPadding(8));
                     table.addCell(new Cell().add(new Paragraph("—")).setBackgroundColor(rowBg).setPadding(8));
-                    table.addCell(pdfExportService.makeBadge("Pending", PdfExportService.WARNING_COLOR, ColorConstants.WHITE).setBackgroundColor(rowBg).setPadding(8));
+                    table.addCell(pdfExportService.makeBadge("Pending", PdfExportService.WARNING_COLOR, ColorConstants.BLACK).setBackgroundColor(rowBg).setPadding(8));
                 }
                 rowIdx++;
             }
@@ -612,7 +647,7 @@ public class ReportServiceImpl implements ReportService {
                             table.addCell(new Cell().add(new Paragraph(row.getScore() + " / 100").setFontColor(pdfExportService.getScoreColor(row.getScore()))).setBackgroundColor(rowBg).setFontSize(9).setPadding(5));
                             table.addCell(new Cell().add(new Paragraph(row.getEvaluatorName())).setBackgroundColor(rowBg).setFontSize(9).setPadding(5));
                             table.addCell(new Cell().add(new Paragraph(pdfExportService.formatDate(row.getSubmittedAt()))).setBackgroundColor(rowBg).setFontSize(9).setPadding(5));
-                            table.addCell(pdfExportService.makeBadge("Completed", PdfExportService.SUCCESS_COLOR, ColorConstants.WHITE).setBackgroundColor(rowBg).setFontSize(8).setPadding(5));
+                            table.addCell(pdfExportService.makeBadge("Completed", PdfExportService.SUCCESS_COLOR, ColorConstants.BLACK).setBackgroundColor(rowBg).setFontSize(8).setPadding(5));
                             
                             String feedback = row.getFeedback();
                             if (feedback != null && feedback.length() > 80) feedback = feedback.substring(0, 77) + "...";
@@ -621,7 +656,7 @@ public class ReportServiceImpl implements ReportService {
                             table.addCell(new Cell().add(new Paragraph("—")).setBackgroundColor(rowBg).setFontSize(9).setPadding(5));
                             table.addCell(new Cell().add(new Paragraph(row.getEvaluatorName())).setBackgroundColor(rowBg).setFontSize(9).setPadding(5));
                             table.addCell(new Cell().add(new Paragraph("—")).setBackgroundColor(rowBg).setFontSize(9).setPadding(5));
-                            table.addCell(pdfExportService.makeBadge("Pending", PdfExportService.WARNING_COLOR, ColorConstants.WHITE).setBackgroundColor(rowBg).setFontSize(8).setPadding(5));
+                            table.addCell(pdfExportService.makeBadge("Pending", PdfExportService.WARNING_COLOR, ColorConstants.BLACK).setBackgroundColor(rowBg).setFontSize(8).setPadding(5));
                             table.addCell(new Cell().add(new Paragraph("—")).setBackgroundColor(rowBg).setFontSize(9).setPadding(5));
                         }
                         rowIdx++;

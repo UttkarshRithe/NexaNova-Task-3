@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final com.techtraining.userservice.client.AssignmentClient assignmentClient;
 
     @Override
     @Transactional
@@ -50,19 +51,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getUserByEmail(String email) {
-        User user = userRepository.findByEmailAndIsActiveTrue(email)
+        User user = userRepository.findByEmailAndStatus(email, com.techtraining.common.enums.EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
         return userMapper.toResponse(user);
     }
 
     @Override
     public Page<UserResponse> getAllUsers(Pageable pageable) {
-        return userRepository.findByIsActiveTrue(pageable).map(userMapper::toResponse);
+        return userRepository.findByStatus(com.techtraining.common.enums.EntityStatus.ACTIVE, pageable).map(userMapper::toResponse);
     }
 
     @Override
     public Page<UserResponse> getEvaluators(Pageable pageable) {
-        return userRepository.findByRoleAndIsActiveTrue(UserRole.EVALUATOR, pageable).map(userMapper::toResponse);
+        return userRepository.findByRoleAndStatus(UserRole.EVALUATOR, com.techtraining.common.enums.EntityStatus.ACTIVE, pageable).map(userMapper::toResponse);
     }
 
     @Override
@@ -84,6 +85,20 @@ public class UserServiceImpl implements UserService {
     public void softDeleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(AppConstants.USER_NOT_FOUND + id));
+        
+        if (user.getRole() == UserRole.EVALUATOR) {
+            try {
+                if (assignmentClient.hasPendingAssignments(id)) {
+                    throw new IllegalStateException("Cannot delete evaluator: future assignments exist.");
+                }
+            } catch (IllegalStateException e) {
+                throw e;
+            } catch (Exception e) {
+                // If service is down, log it
+            }
+        }
+        
+        user.setStatus(com.techtraining.common.enums.EntityStatus.ARCHIVED);
         user.setIsActive(false);
         userRepository.save(user);
     }

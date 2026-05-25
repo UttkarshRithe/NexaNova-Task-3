@@ -38,6 +38,11 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private com.techtraining.common.enums.EntityStatus status = com.techtraining.common.enums.EntityStatus.ACTIVE;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

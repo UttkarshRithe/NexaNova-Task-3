@@ -42,9 +42,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Transactional
     public EnrollmentResponse enrollParticipant(EnrollmentRequest request) {
 
-        if (enrollmentRepository.existsByParticipantIdAndBatchTechnologyId(
+        if (enrollmentRepository.existsByParticipantIdAndBatchTechnologyIdAndStatus(
                 request.getParticipantId(),
-                request.getBatchTechnologyId()
+                request.getBatchTechnologyId(),
+                com.techtraining.common.enums.EntityStatus.ACTIVE
         )) {
 
             throw new DuplicateResourceException(
@@ -128,9 +129,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public List<EnrollmentResponse> getAllEnrollments() {
-
         return enrollmentMapper.toResponseList(
-                enrollmentRepository.findAll()
+                enrollmentRepository.findByStatus(com.techtraining.common.enums.EntityStatus.ACTIVE)
         );
     }
 
@@ -138,9 +138,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public List<EnrollmentResponse> getEnrollmentsByParticipantId(
             Long participantId
     ) {
-
         return enrollmentMapper.toResponseList(
-                enrollmentRepository.findByParticipantId(participantId)
+                enrollmentRepository.findByParticipantIdAndStatus(participantId, com.techtraining.common.enums.EntityStatus.ACTIVE)
         );
     }
 
@@ -148,38 +147,31 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public List<EnrollmentResponse> getEnrollmentsByBatchTechnologyId(
             Long btId
     ) {
-
         return enrollmentMapper.toResponseList(
-                enrollmentRepository.findByBatchTechnologyId(btId)
+                enrollmentRepository.findByBatchTechnologyIdAndStatus(btId, com.techtraining.common.enums.EntityStatus.ACTIVE)
         );
     }
 
     @Override
     @Transactional
     public void deleteEnrollment(Long id) {
+        Enrollment enrollment = enrollmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with id: " + id));
 
-        if (!enrollmentRepository.existsById(id)) {
-
-            throw new ResourceNotFoundException(
-                    "Enrollment not found with id: " + id
-            );
-        }
-
-        // ✅ FIX: Wrap Feign call in try/catch.
-        // A failed cascade must NOT block enrollment deletion.
-        // Any surviving orphan assignments will be cleaned up by the
-        // scheduled OrphanAssignmentCleanupJob in evaluation-service.
+        // Safety Validation: Check if assignments exist
+        java.util.List<java.util.Map<String, Object>> assignments = null;
         try {
-            evaluationClient.deleteAssignmentsByEnrollment(id, internalSecret);
+            assignments = evaluationClient.getAssignmentsByEnrollmentInternal(id);
         } catch (Exception e) {
-            log.error(
-                "[EnrollmentService] Failed to cascade-delete assignments for enrollment={}: {}",
-                id, e.getMessage()
-            );
-            // Do NOT rethrow — enrollment deletion must still proceed.
+            log.error("[EnrollmentService] Failed to fetch assignments for deletion check: {}", e.getMessage());
         }
 
-        enrollmentRepository.deleteById(id);
-        log.info("[EnrollmentService] Enrollment {} deleted successfully.", id);
+        if (assignments != null && !assignments.isEmpty()) {
+            throw new IllegalStateException("Enrollment deletion blocked: assignments exist for this enrollment.");
+        }
+
+        enrollment.setStatus(com.techtraining.common.enums.EntityStatus.ARCHIVED);
+        enrollmentRepository.save(enrollment);
+        log.info("[EnrollmentService] Enrollment {} soft-deleted successfully.", id);
     }
 }

@@ -76,6 +76,11 @@ public class EnrollmentController {
         return ResponseEntity.ok(ApiResponse.success("Enrollments for batch-technology fetched successfully", response));
     }
 
+    @GetMapping("/internal/batch-technology/{btId}")
+    public List<EnrollmentResponse> getEnrollmentsByBatchTechnologyInternal(@PathVariable Long btId) {
+        return enrollmentService.getEnrollmentsByBatchTechnologyId(btId);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> deleteEnrollment(@PathVariable Long id) {

@@ -20,6 +20,7 @@ const Reports = () => {
   const [emailModal, setEmailModal] = useState(false);
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
   const [isEmailing, setIsEmailing] = useState(false);
+  const [isDownloadingAnalysis, setIsDownloadingAnalysis] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -88,11 +89,14 @@ const Reports = () => {
   };
 
   const handleDownloadAnalysis = async (batchId: number, batchName: string) => {
+    setIsDownloadingAnalysis(true);
     try {
       await downloadBatchAiAnalysisReport(batchId, batchName);
       toast.success('AI Analysis PDF downloaded');
     } catch (error) {
       toast.error('Failed to download AI Analysis PDF');
+    } finally {
+      setIsDownloadingAnalysis(false);
     }
   };
 
@@ -274,16 +278,31 @@ const Reports = () => {
               <h2 className="text-xl sm:text-2xl font-serif">🤖 Holistic AI Analysis — {selectedBatchName}</h2>
               <button 
                 onClick={() => handleDownloadAnalysis(batches.find(b => b.name === selectedBatchName)?.id!, selectedBatchName)}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm font-medium"
+                disabled={isAnalyzing || !analysisData || isDownloadingAnalysis}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Download size={16} />
-                Download PDF
+                {isDownloadingAnalysis ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    Downloading...
+                  </>
+                ) : (
+                  <>
+                    <Download size={16} />
+                    Download PDF
+                  </>
+                )}
               </button>
             </div>
 
             <div className="space-y-4 overflow-y-auto flex-1 pr-1">
               {isAnalyzing ? (
-                <div className="text-chrome/60 py-8 text-center">Gathering cross-technology insights...</div>
+                <div className="flex flex-col items-center justify-center py-12 space-y-4">
+                  <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                  <p className="text-chrome/60 text-sm font-medium animate-pulse">
+                    Gathering cross-technology insights & analyzing metrics...
+                  </p>
+                </div>
               ) : analysisData && (
                 <div className="space-y-4">
                   <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold text-xs sm:text-sm">

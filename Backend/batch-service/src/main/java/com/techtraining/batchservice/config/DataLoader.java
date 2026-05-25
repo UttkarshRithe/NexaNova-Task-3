@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-@Profile("dev")
+@Profile({"dev", "docker", "local"})
 @Order(1)
 @RequiredArgsConstructor
 @Slf4j
